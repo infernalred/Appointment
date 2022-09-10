@@ -1,14 +1,11 @@
 <template>
   <h1></h1>
-
 </template>
 
 <script>
 export default {
-  name: "ServiceDetail"
+  name: "ServiceDetail",
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
