@@ -1,7 +1,10 @@
 <template>
-  <h1>Сервис бронирования услуг</h1>
+  <h1>Салон красоты</h1>
   <br />
-  <h2></h2>
+  <div>
+    <img alt="logo" src="../../assets/logo.png" />
+  </div>
+  <section></section>
 </template>
 
 <script lang="ts">
