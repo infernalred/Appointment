@@ -12,5 +12,6 @@ public class ServiceModelConfiguration : IEntityTypeConfiguration<Service>
 
         builder.Property(x => x.Title).IsRequired().HasMaxLength(25);
         builder.Property(x => x.DurationMinutes).HasDefaultValue(30);
+        builder.Property(x => x.IsEnabled).HasDefaultValue(true);
     }
 }
