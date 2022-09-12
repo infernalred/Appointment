@@ -9,4 +9,5 @@ public interface IDataContext
     DbSet<Service> Services { get; set; }
     DbSet<Master> Masters { get; set; }
     DbSet<TimeSlot> TimeSlots { get; set; }
+    DbSet<Domain.Appointment> Appointments { get; set; }
 }

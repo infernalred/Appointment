@@ -1,4 +1,5 @@
 ﻿using Appointment.Application.Helpers;
+using Appointment.Application.Masters;
 using Appointment.Persistence.Context;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -20,7 +21,7 @@ public static class ApplicationServiceExtensions
 
         services.AddMemoryCache();
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-        //services.AddMediatR(typeof(Create).Assembly);
+        services.AddMediatR(typeof(Details).Assembly);
         services.AddControllers(opt =>
         {
             var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
