@@ -35,7 +35,7 @@ public static class Seed
 
             var service2 = new Service
             {
-                Id = 2, Title = "Маникюр", Description = "Профессиональная маникюр", DurationMinutes = 60,
+                Id = 2, Title = "Маникюр", Description = "Профессиональный маникюр", DurationMinutes = 60,
                 IsEnabled = true
             };
 
@@ -87,7 +87,7 @@ public static class Seed
             {
                 Id = 2, Master = master1,
                 DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step += 30),
+                Start = dt.AddMinutes(step),
                 End = dt.AddMinutes(step += 30)
             };
 
@@ -95,7 +95,7 @@ public static class Seed
             {
                 Id = 3, Master = master1,
                 DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step += 30),
+                Start = dt.AddMinutes(step),
                 End = dt.AddMinutes(step += 30)
             };
 
@@ -103,7 +103,7 @@ public static class Seed
             {
                 Id = 4, Master = master1,
                 DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step += 30),
+                Start = dt.AddMinutes(step),
                 End = dt.AddMinutes(step += 30)
             };
 
@@ -111,7 +111,7 @@ public static class Seed
             {
                 Id = 5, Master = master1,
                 DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step += 30),
+                Start = dt.AddMinutes(step),
                 End = dt.AddMinutes(step += 30)
             };
 
@@ -119,7 +119,7 @@ public static class Seed
             {
                 Id = 6, Master = master1,
                 DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step += 30),
+                Start = dt.AddMinutes(step),
                 End = dt.AddMinutes(step += 30)
             };
 
@@ -127,7 +127,7 @@ public static class Seed
             {
                 Id = 7, Master = master1,
                 DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step += 30),
+                Start = dt.AddMinutes(step),
                 End = dt.AddMinutes(step += 30)
             };
 

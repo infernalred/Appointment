@@ -49,7 +49,9 @@ public class FreeSlots
 
             for (var i = 0; i <= daysCount; i++)
             {
-                var slots = master.TimeSlots.Where(x => x.DayOfWeek == start.DayOfWeek).ToList();
+                var slots = master.TimeSlots
+                    .OrderBy(x => x.Start)
+                    .Where(x => x.DayOfWeek == start.DayOfWeek).ToList();
 
                 foreach (var slot in slots)
                 {

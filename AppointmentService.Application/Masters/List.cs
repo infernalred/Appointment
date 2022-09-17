@@ -29,6 +29,7 @@ public class List
         {
             var masters = await _context.Masters
                 .Include(x => x.User)
+                .OrderBy(x => x.ServiceId)
                 .ProjectTo<MasterDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
             
