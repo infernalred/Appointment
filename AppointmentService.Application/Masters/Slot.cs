@@ -1,4 +1,4 @@
-﻿namespace AppointmentService.Application.Appointments;
+﻿namespace AppointmentService.Application.Masters;
 
 public class Slot
 {

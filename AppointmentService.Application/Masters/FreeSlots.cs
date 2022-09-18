@@ -1,10 +1,10 @@
-﻿using AppointmentService.Persistence.Context;
-using AppointmentService.Application.Helpers;
+﻿using AppointmentService.Application.Helpers;
+using AppointmentService.Persistence.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace AppointmentService.Application.Appointments;
+namespace AppointmentService.Application.Masters;
 
 public class FreeSlots
 {

@@ -23,4 +23,13 @@ public class MasterController : BaseApiController
     {
         return Ok(await Mediator.Send(new List.Query()));
     }
+
+    [AllowAnonymous]
+    [HttpGet("slots/{id}")]
+    [ProducesResponseType(typeof(OperationResult<List<Slot>>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<OperationResult<List<Slot>>>> GetFreeSlots(string id,
+        [FromQuery] SlotParams slotParams)
+    {
+        return Ok(await Mediator.Send(new FreeSlots.Query {Id = id, Params = slotParams}));
+    }
 }
