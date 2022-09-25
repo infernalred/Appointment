@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { OperationResult } from "@/models/OperationResult";
 import Service from "@/models/Service";
+import Master from "@/models/Master";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_ADDRESS;
 
@@ -16,13 +17,20 @@ const requests = {
 };
 
 const Services = {
-  list: () => requests.get<OperationResult<Service[]>>("/service"),
+  list: () => requests.get<OperationResult<Service[]>>("/services"),
   details: (id: number) =>
-    requests.get<OperationResult<Service>>(`/service/${id}`),
+    requests.get<OperationResult<Service>>(`/services/${id}`),
+};
+
+const Masters = {
+  list: () => requests.get<OperationResult<Master[]>>("/masters"),
+  details: (id: string) =>
+    requests.get<OperationResult<Master>>(`/masters/${id}`),
 };
 
 const agent = {
   Services,
+  Masters,
 };
 
 export default agent;

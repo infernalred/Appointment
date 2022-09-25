@@ -1,4 +1,6 @@
-﻿namespace AppointmentService.Application.Services;
+﻿using AppointmentService.Application.Masters;
+
+namespace AppointmentService.Application.Services;
 
 public class ServiceDto
 {
@@ -8,4 +10,5 @@ public class ServiceDto
     public int DurationMinutes { get; set; }
     public string? Image { get; set; }
     public bool IsEnabled { get; set; }
+    public ICollection<MasterDto> Masters { get; set; } = new List<MasterDto>();
 }

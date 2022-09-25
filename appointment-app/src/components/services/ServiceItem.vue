@@ -6,7 +6,7 @@
       </header>
       <img alt="" :src="image" />
       <h4>{{ service.description }}</h4>
-      <router-link :to="serviceLink">Подробнее</router-link>
+      <base-button link :to="serviceLink">Подробнее</base-button>
     </base-card>
   </div>
 </template>

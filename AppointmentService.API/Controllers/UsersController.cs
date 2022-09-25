@@ -10,13 +10,13 @@ namespace AppointmentService.API.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class UserController : ControllerBase
+public class UsersController : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly ITokenService _tokenService;
 
-    public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
+    public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
         ITokenService tokenService)
     {
         _userManager = userManager;

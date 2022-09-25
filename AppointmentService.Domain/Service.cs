@@ -8,4 +8,5 @@ public class Service
     public int DurationMinutes { get; set; } = 30;
     public string? Image { get; set; }
     public bool IsEnabled { get; set; } = true;
+    public ICollection<Master> Masters { get; set; } = new List<Master>();
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AppointmentService.API.Controllers;
 
-public class ServiceController : BaseApiController
+public class ServicesController : BaseApiController
 {
     [AllowAnonymous]
     [HttpGet("{id:int}")]

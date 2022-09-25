@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AppointmentService.API.Controllers;
 
-public class AppointmentController : BaseApiController
+public class AppointmentsController : BaseApiController
 {
     [AllowAnonymous]
     [HttpPost]

@@ -30,6 +30,8 @@ public class Details
         public async Task<OperationResult<ServiceDto>> Handle(Query request, CancellationToken cancellationToken)
         {
             var service = await _context.Services
+                .Include(x => x.Masters)
+                .ThenInclude(m => m.User)
                 .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             return OperationResult<ServiceDto>.Success(_mapper.Map<ServiceDto>(service));
