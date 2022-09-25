@@ -1,12 +1,13 @@
 <template>
   <div>
-    <section>
-      <base-card>
-        <header>
-          <h2>{{ service.title }}</h2>
-        </header>
-      </base-card>
-    </section>
+    <base-card>
+      <header>
+        <h2>{{ service.title }}</h2>
+      </header>
+      <img alt="" :src="image" />
+      <h4>{{ service.description }}</h4>
+      <router-link :to="serviceLink">Подробнее</router-link>
+    </base-card>
   </div>
 </template>
 
@@ -22,7 +23,22 @@ export default defineComponent({
       required: true,
     },
   },
+  computed: {
+    image() {
+      return this.service.image
+        ? this.service.image
+        : require("../../assets/service.png");
+    },
+    serviceLink() {
+      return this.$route.path + "/" + this.service.id;
+    },
+  },
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+img {
+  width: 150px;
+  height: 150px;
+}
+</style>

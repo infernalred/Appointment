@@ -32,7 +32,7 @@ public class Details
             var master = await _context.Masters
                 .Include(x => x.User)
                 .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-            
+
             return OperationResult<MasterDto>.Success(_mapper.Map<MasterDto>(master));
         }
     }
