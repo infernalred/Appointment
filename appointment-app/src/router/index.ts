@@ -2,13 +2,15 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 import ServicesList from "@/views/services/ServicesList.vue";
 import MastersList from "@/views/masters/MastersList.vue";
-import ServiceDetail from "@/views/services/ServiceDetail.vue";
+import ServiceDetails from "@/views/services/ServiceDetails.vue";
+import MasterDetails from "@/views/masters/MasterDetails.vue";
 
 const routes: Array<RouteRecordRaw> = [
   { path: "/", redirect: "/services" },
   { path: "/services", component: ServicesList },
-  { path: "/services/:id", component: ServiceDetail },
+  { path: "/services/:id", component: ServiceDetails },
   { path: "/masters", component: MastersList },
+  { path: "/masters/:id", component: MasterDetails },
 ];
 
 const router = createRouter({
