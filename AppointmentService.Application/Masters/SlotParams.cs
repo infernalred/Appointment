@@ -3,5 +3,5 @@
 public class SlotParams
 {
     public DateTime Start { get; set; } = DateTime.UtcNow;
-    public DateTime End { get; set; } = DateTime.UtcNow.AddDays(6);
+    public DateTime End => Start.AddDays(6);
 }
