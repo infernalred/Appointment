@@ -37,15 +37,19 @@ public class FreeSlots
 
             master.Service = await _context.Services.FirstAsync(x => x.Id == master.ServiceId, cancellationToken);
 
+            var startEndTime = request.Params.Start;
+            var endDateTime = new DateTime(startEndTime.Year, startEndTime.Month, startEndTime.Day, 0, 0, 0, startEndTime.Kind);
+            endDateTime = endDateTime.AddDays(7);
+
             var appointments = await _context.Appointments
-                .Where(x => x.MasterId == master.Id && x.Start > request.Params.Start && x.End < request.Params.End)
+                .Where(x => x.MasterId == master.Id && x.Start > request.Params.Start && x.End < endDateTime)
                 .OrderBy(x => x.Start)
                 .ToListAsync(cancellationToken);
 
-            var daysCount = request.Params.End.Day - request.Params.Start.Day;
+            var daysCount = endDateTime.Day - request.Params.Start.Day;
 
             var start = request.Params.Start;
-            var end = new DateTime(start.Year, start.Month, start.Day + 1, 0, 0, 0, start.Kind);
+            var end = endDateTime;
 
             for (var i = 0; i <= daysCount; i++)
             {

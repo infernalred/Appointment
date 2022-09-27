@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from "axios";
 import { OperationResult } from "@/models/OperationResult";
 import Service from "@/models/Service";
 import Master from "@/models/Master";
+import SlotModel from "@/models/SlotModel";
+import SlotParams from "@/models/SlotParams";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_ADDRESS;
 
@@ -26,6 +28,12 @@ const Masters = {
   list: () => requests.get<OperationResult<Master[]>>("/masters"),
   details: (id: string) =>
     requests.get<OperationResult<Master>>(`/masters/${id}`),
+  freeSlots: (id: string, slotParams?: SlotParams) =>
+    axios
+      .get<OperationResult<SlotModel[]>>(`/masters/slots/${id}`, {
+        params: slotParams,
+      })
+      .then(responseBody),
 };
 
 const agent = {
