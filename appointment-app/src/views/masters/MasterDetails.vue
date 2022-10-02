@@ -6,7 +6,7 @@
   </section>
   <section>
     <base-card>
-      <master-slots></master-slots>
+      <master-slots :master-slots="getMasterSlots"></master-slots>
     </base-card>
   </section>
 </template>
@@ -30,8 +30,12 @@ export default defineComponent({
   },
   computed: {
     ...mapState(useAppointmentStore, ["currentMaster"]),
+    ...mapState(useAppointmentStore, ["masterSlots"]),
     getMaster(): Master {
       return this.currentMaster;
+    },
+    getMasterSlots(): SlotModel[] {
+      return this.masterSlots;
     },
   },
   created() {

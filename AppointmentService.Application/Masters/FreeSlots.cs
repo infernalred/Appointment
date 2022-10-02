@@ -1,5 +1,6 @@
 ﻿using AppointmentService.Application.Helpers;
 using AppointmentService.Persistence.Context;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,14 @@ public class FreeSlots
     {
         public string Id { get; set; } = null!;
         public SlotParams Params { get; set; } = null!;
+    }
+
+    public class CommandValidator : AbstractValidator<Query>
+    {
+        public CommandValidator()
+        {
+            RuleFor(x => x.Params).SetValidator(new SlotParamsValidator());
+        }
     }
 
     public class Handler : IRequestHandler<Query, OperationResult<List<Slot>>>
@@ -37,21 +46,21 @@ public class FreeSlots
 
             master.Service = await _context.Services.FirstAsync(x => x.Id == master.ServiceId, cancellationToken);
 
+            var quantityDays = request.Params.QuantityDays;
+
             var startEndTime = request.Params.Start;
             var endDateTime = new DateTime(startEndTime.Year, startEndTime.Month, startEndTime.Day, 0, 0, 0, startEndTime.Kind);
-            endDateTime = endDateTime.AddDays(7);
+            endDateTime = endDateTime.AddDays(quantityDays);
 
             var appointments = await _context.Appointments
                 .Where(x => x.MasterId == master.Id && x.Start > request.Params.Start && x.End < endDateTime)
                 .OrderBy(x => x.Start)
                 .ToListAsync(cancellationToken);
 
-            var daysCount = endDateTime.Day - request.Params.Start.Day;
-
             var start = request.Params.Start;
-            var end = endDateTime;
+            var end = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, start.Kind).AddDays(1);
 
-            for (var i = 0; i <= daysCount; i++)
+            for (var i = 0; i <= quantityDays; i++)
             {
                 var slots = master.TimeSlots
                     .OrderBy(x => x.Start)

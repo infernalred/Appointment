@@ -1,6 +1,7 @@
 ﻿using AppointmentService.Application.Helpers;
 using AppointmentService.Application.Masters;
 using AppointmentService.Persistence.Context;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,7 @@ public static class ApplicationServiceExtensions
             opt.Filters.Add(new AuthorizeFilter(policy));
         });
 
+        services.AddValidatorsFromAssemblyContaining(typeof(SlotParamsValidator));
         services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

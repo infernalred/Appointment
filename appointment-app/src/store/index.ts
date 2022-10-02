@@ -32,7 +32,14 @@ export const useAppointmentStore = defineStore("appointment", {
     },
     async loadSlots(id: string, slotParams: SlotParams) {
       const response = await agent.Masters.freeSlots(id, slotParams);
-      this.masterSlots = response.result;
+      for (const key in response.result) {
+        const slot = {
+          id: response.result[key].id,
+          start: new Date(response.result[key].start),
+          end: new Date(response.result[key].end),
+        } as SlotModel;
+        this.masterSlots.push(slot);
+      }
     },
   },
   getters: {
@@ -48,5 +55,6 @@ export const useAppointmentStore = defineStore("appointment", {
     currentMaster(): Master {
       return this.master;
     },
+    // hasSlots(): boolean {},
   },
 });

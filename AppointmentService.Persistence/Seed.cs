@@ -69,69 +69,38 @@ public static class Seed
 
         if (!context.TimeSlots.Any())
         {
-            var master1 = await context.Masters.AsTracking().FirstAsync(x => x.ServiceId == 1);
+            var master1 = await context.Masters
+                .Include(x => x.Service)
+                .AsTracking()
+                .FirstAsync(x => x.ServiceId == 1);
 
-            var dt = new DateTime(2022, 9, 12, 9, 30, 0, DateTimeKind.Utc);
+            var dt = new DateTime(2022, 9, 12, 5, 30, 0, DateTimeKind.Utc);
 
-            var step = 30;
+            var step = master1.Service.DurationMinutes;
 
-            var slot1 = new TimeSlot
+            var id = 1;
+
+            var slots = new List<TimeSlot>();
+
+            for (var i = 0; i < 4; i++)
             {
-                Id = 1, Master = master1,
-                DayOfWeek = dt.DayOfWeek,
-                Start = dt,
-                End = dt.AddMinutes(step)
-            };
+                for (var j = 0; j < 12 * step; j += step)
+                {
+                    var slot = new TimeSlot
+                    {
+                        Id = id++, Master = master1,
+                        DayOfWeek = dt.DayOfWeek,
+                        Start = dt.AddMinutes(j),
+                        End = dt.AddMinutes(j + step)
+                    };
+ 
+                    slots.Add(slot);
+                }
 
-            var slot2 = new TimeSlot
-            {
-                Id = 2, Master = master1,
-                DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step),
-                End = dt.AddMinutes(step += 30)
-            };
+                dt = dt.AddDays(1);
+            }
 
-            var slot3 = new TimeSlot
-            {
-                Id = 3, Master = master1,
-                DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step),
-                End = dt.AddMinutes(step += 30)
-            };
-
-            var slot4 = new TimeSlot
-            {
-                Id = 4, Master = master1,
-                DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step),
-                End = dt.AddMinutes(step += 30)
-            };
-
-            var slot5 = new TimeSlot
-            {
-                Id = 5, Master = master1,
-                DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step),
-                End = dt.AddMinutes(step += 30)
-            };
-
-            var slot6 = new TimeSlot
-            {
-                Id = 6, Master = master1,
-                DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step),
-                End = dt.AddMinutes(step += 30)
-            };
-
-            var slot7 = new TimeSlot
-            {
-                Id = 7, Master = master1,
-                DayOfWeek = dt.DayOfWeek,
-                Start = dt.AddMinutes(step),
-                End = dt.AddMinutes(step += 30)
-            };
-
-            await context.TimeSlots.AddRangeAsync(slot1, slot2, slot3, slot4, slot5, slot6, slot7);
+            await context.TimeSlots.AddRangeAsync(slots);
             await context.SaveChangesAsync();
         }
     }
