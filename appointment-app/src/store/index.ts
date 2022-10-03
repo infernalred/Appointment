@@ -4,6 +4,7 @@ import agent from "@/api/agent";
 import Master from "@/models/Master";
 import SlotParams from "@/models/SlotParams";
 import SlotModel from "@/models/SlotModel";
+import MasterSlots from "@/components/masters/MasterSlots.vue";
 
 export const useAppointmentStore = defineStore("appointment", {
   state: () => ({
@@ -32,14 +33,16 @@ export const useAppointmentStore = defineStore("appointment", {
     },
     async loadSlots(id: string, slotParams: SlotParams) {
       const response = await agent.Masters.freeSlots(id, slotParams);
+      const slots = [] as SlotModel[];
       for (const key in response.result) {
         const slot = {
           id: response.result[key].id,
           start: new Date(response.result[key].start),
           end: new Date(response.result[key].end),
         } as SlotModel;
-        this.masterSlots.push(slot);
+        slots.push(slot);
       }
+      this.masterSlots = slots;
     },
   },
   getters: {

@@ -6,7 +6,11 @@
   </section>
   <section>
     <base-card>
-      <master-slots :master-slots="getMasterSlots"></master-slots>
+      <master-slots
+        @change-params="setSlotParams"
+        :master-slots="getMasterSlots"
+        :slot-params="slotParams"
+      ></master-slots>
     </base-card>
   </section>
 </template>
@@ -25,7 +29,11 @@ export default defineComponent({
   components: { MasterSlots },
   data() {
     return {
-      slotParams: {} as SlotModel,
+      slotParams: {
+        start: new Date(),
+        quantityDays: 6,
+      } as SlotParams,
+      id: "",
     };
   },
   computed: {
@@ -39,9 +47,9 @@ export default defineComponent({
     },
   },
   created() {
-    const id = this.$route.params.id as string;
-    this.initMaster(id);
-    this.initSlots(id, this.slotParams);
+    this.id = this.$route.params.id as string;
+    this.initMaster(this.id);
+    this.initSlots(this.id, this.slotParams);
   },
   methods: {
     ...mapActions(useAppointmentStore, ["loadMaster"]),
@@ -59,6 +67,10 @@ export default defineComponent({
       } catch (e) {
         console.log(e);
       }
+    },
+    setSlotParams(updatedSlotParams: SlotParams) {
+      this.slotParams = updatedSlotParams;
+      this.initSlots(this.id, this.slotParams);
     },
   },
 });

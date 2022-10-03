@@ -6,7 +6,7 @@ public class SlotParamsValidator : AbstractValidator<SlotParams>
 {
     public SlotParamsValidator()
     {
-        RuleFor(x => x.QuantityDays).GreaterThan(1).LessThanOrEqualTo(28);
+        RuleFor(x => x.QuantityDays).LessThanOrEqualTo(28);
         //add to check start date
     }
 }
