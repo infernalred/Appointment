@@ -35,8 +35,8 @@ a {
   text-decoration: none;
   padding: 0.75rem 1.5rem;
   font: inherit;
-  background-color: #3a0061;
-  border: 1px solid #3a0061;
+  background-color: #3bb3bd;
+  border: 1px solid #3bb3bd;
   color: white;
   cursor: pointer;
   border-radius: 30px;
@@ -48,8 +48,8 @@ a:hover,
 a:active,
 button:hover,
 button:active {
-  background-color: #270041;
-  border-color: #270041;
+  background-color: #1f6885;
+  border-color: #1f6885;
 }
 
 button:disabled {
@@ -60,20 +60,20 @@ button:disabled {
 
 .flat {
   background-color: transparent;
-  color: #3a0061;
+  color: #3bb3bd;
   border: none;
 }
 
 .outline {
   background-color: transparent;
-  border-color: #270041;
-  color: #270041;
+  border-color: #1f6885;
+  color: #1f6885;
 }
 
 .flat:hover,
 .flat:active,
 .outline:hover,
 .outline:active {
-  background-color: #edd2ff;
+  background-color: #1f6885;
 }
 </style>

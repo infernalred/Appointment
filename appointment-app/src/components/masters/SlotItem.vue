@@ -28,6 +28,9 @@ export default defineComponent({
       required: true,
     },
   },
+  data() {
+    return {};
+  },
   computed: {
     slotByDay(): SlotModel[] {
       return this.masterSlots.filter(

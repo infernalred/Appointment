@@ -78,7 +78,7 @@ public class FreeSlots
                         End = startDateTime.AddMinutes(master.Service.DurationMinutes)
                     };
 
-                    if (!appointments.Any(x => x.Start < newSlot.End && x.End > newSlot.Start))
+                    if (newSlot.Start > DateTime.UtcNow && !appointments.Any(x => x.Start < newSlot.End && x.End > newSlot.Start))
                     {
                         result.Add(newSlot);
                     }

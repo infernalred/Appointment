@@ -4,7 +4,6 @@ import agent from "@/api/agent";
 import Master from "@/models/Master";
 import SlotParams from "@/models/SlotParams";
 import SlotModel from "@/models/SlotModel";
-import MasterSlots from "@/components/masters/MasterSlots.vue";
 
 export const useAppointmentStore = defineStore("appointment", {
   state: () => ({
@@ -58,6 +57,5 @@ export const useAppointmentStore = defineStore("appointment", {
     currentMaster(): Master {
       return this.master;
     },
-    // hasSlots(): boolean {},
   },
 });
