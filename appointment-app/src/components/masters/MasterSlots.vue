@@ -7,10 +7,24 @@
       >
       <base-button @click="setSlotParams(7)">&#62;</base-button>
       <h3>{{ weekLabelDate }}</h3>
+      <div v-if="selectedSlot">
+        <span
+          ><span>
+            {{ selectedDate }}
+            <button class="cancel" @click="clearSelected">x</button>
+          </span>
+          <button class="next">Далее</button>
+        </span>
+      </div>
     </div>
     <div class="days">
       <ul v-for="day in days" :key="day">
-        <slot-item :master-slots="masterSlots" :date="day"></slot-item>
+        <slot-item
+          @select-slot="setSelectedSlot"
+          :master-slots="masterSlots"
+          :selected-slot="selectedSlot"
+          :date="day"
+        ></slot-item>
       </ul>
     </div>
   </section>
@@ -39,6 +53,7 @@ export default defineComponent({
   data() {
     return {
       days: [] as Date[],
+      selectedSlot: null as null | SlotModel,
     };
   },
   created() {
@@ -48,12 +63,20 @@ export default defineComponent({
     weekLabelDate() {
       const date = new Date(this.slotParams.start);
       date.setDate(date.getDate() + this.slotParams.quantityDays);
-      return `${this.slotParams.start.toLocaleString("default", {
+      return `${this.slotParams.start.toLocaleString([], {
         month: "long",
       })} ${this.slotParams.start.getDate()}-${date.getDate()}`;
     },
     isToday(): boolean {
       return new Date() >= this.slotParams.start;
+    },
+    selectedDate(): string {
+      return `${this.selectedSlot?.start.toLocaleDateString()} ${this.selectedSlot?.start.toLocaleTimeString(
+        [],
+        { timeStyle: "short" }
+      )}-${this.selectedSlot?.end.toLocaleTimeString([], {
+        timeStyle: "short",
+      })}`;
     },
   },
   methods: {
@@ -68,6 +91,7 @@ export default defineComponent({
       return this.masterSlots.filter((x) => x.start.getDay() === day.getDay());
     },
     setSlotParams(cntDay: number) {
+      this.clearSelected();
       const updatedSlotParams = {
         ...this.slotParams,
         start: new Date(
@@ -77,6 +101,16 @@ export default defineComponent({
         ),
       } as SlotParams;
       this.$emit("change-params", updatedSlotParams);
+    },
+    setSelectedSlot(slot: SlotModel) {
+      if (this.selectedSlot?.id === slot.id) {
+        this.clearSelected();
+      } else {
+        this.selectedSlot = slot;
+      }
+    },
+    clearSelected() {
+      this.selectedSlot = null;
     },
   },
 });
@@ -99,5 +133,41 @@ ul {
   padding: 0;
   border-top: 4px solid rgb(59, 179, 189);
   background: rgb(243, 250, 251);
+}
+
+span {
+  height: 32px;
+  padding-left: 2px;
+  font: inherit;
+  font-weight: 500;
+  position: relative;
+  width: 100%;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  border-radius: 2px;
+  background-color: rgb(59, 179, 189);
+  color: rgb(255, 255, 255);
+  margin-left: 0.5rem;
+}
+
+.cancel {
+  width: 32px;
+  height: 38px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+}
+
+.next {
+  width: auto;
+  height: 38px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
 }
 </style>

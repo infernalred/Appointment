@@ -1,10 +1,17 @@
 <template>
-  <button><slot></slot></button>
+  <button :class="type"><slot></slot></button>
 </template>
 
 <script>
 export default {
   name: "SlotButton",
+  props: {
+    type: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
 };
 </script>
 
@@ -30,5 +37,19 @@ a:active,
 button:hover,
 button:active {
   border-color: rgb(59, 179, 189);
+}
+
+button:disabled {
+  color: rgb(174, 181, 188);
+  border: 1px solid transparent;
+  cursor: pointer;
+  border-radius: 2px;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.selected {
+  background-color: rgb(59, 179, 189);
+  color: rgb(255, 255, 255);
 }
 </style>

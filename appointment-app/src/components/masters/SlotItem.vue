@@ -4,7 +4,12 @@
   </div>
   <div v-if="hasSlots">
     <div v-for="slot in slotByDay" :key="slot.id">
-      <slot-button>{{ time(slot.start) }}</slot-button>
+      <slot-button
+        :disabled="isSelectedSlot(slot.id)"
+        :type="isActiveSlot(slot.id)"
+        @click="setSelectedSlot(slot)"
+        >{{ time(slot.start) }}</slot-button
+      >
     </div>
   </div>
   <slot-button v-else>Слотов нет!</slot-button>
@@ -17,6 +22,7 @@ import SlotButton from "@/components/masters/SlotButton.vue";
 
 export default defineComponent({
   name: "SlotItem",
+  emits: ["select-slot"],
   components: { SlotButton },
   props: {
     date: {
@@ -27,9 +33,10 @@ export default defineComponent({
       type: Object as PropType<SlotModel[]>,
       required: true,
     },
-  },
-  data() {
-    return {};
+    selectedSlot: {
+      type: null as unknown as PropType<SlotModel | null>,
+      required: true,
+    },
   },
   computed: {
     slotByDay(): SlotModel[] {
@@ -50,6 +57,18 @@ export default defineComponent({
         hour: "2-digit",
         minute: "2-digit",
       });
+    },
+    isSelectedSlot(id: string): boolean {
+      return !!this.selectedSlot && this.selectedSlot.id !== id;
+    },
+    isActiveSlot(id: string): string {
+      if (this.selectedSlot?.id === id) {
+        return "selected";
+      }
+      return "";
+    },
+    setSelectedSlot(slot: SlotModel) {
+      this.$emit("select-slot", slot);
     },
   },
 });
