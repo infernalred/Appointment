@@ -4,6 +4,7 @@ import Service from "@/models/Service";
 import Master from "@/models/Master";
 import SlotModel from "@/models/SlotModel";
 import SlotParams from "@/models/SlotParams";
+import AppointmentSlot from "@/models/AppointmentSlot";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_ADDRESS;
 
@@ -11,7 +12,7 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
   get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-  post: <T>(url: string, body: Record<string, unknown>) =>
+  post: <T>(url: string, body: unknown) =>
     axios.post<T>(url, body).then(responseBody),
   put: <T>(url: string, body: Record<string, unknown>) =>
     axios.put<T>(url, body).then(responseBody),
@@ -36,9 +37,15 @@ const Masters = {
       .then(responseBody),
 };
 
+const Appointments = {
+  create: (appointment: AppointmentSlot) =>
+    requests.post<void>("/appointments", appointment),
+};
+
 const agent = {
   Services,
   Masters,
+  Appointments,
 };
 
 export default agent;

@@ -4,6 +4,7 @@ import agent from "@/api/agent";
 import Master from "@/models/Master";
 import SlotParams from "@/models/SlotParams";
 import SlotModel from "@/models/SlotModel";
+import AppointmentSlot from "@/models/AppointmentSlot";
 
 export const useAppointmentStore = defineStore("appointment", {
   state: () => ({
@@ -42,6 +43,12 @@ export const useAppointmentStore = defineStore("appointment", {
         slots.push(slot);
       }
       this.masterSlots = slots;
+    },
+    async saveAppointment(appointment: AppointmentSlot) {
+      const response = await agent.Appointments.create(appointment);
+      debugger;
+      console.log(response);
+      return response;
     },
   },
   getters: {

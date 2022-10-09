@@ -45,11 +45,18 @@ public class Create
             
             if (master == null) return OperationResult<Unit>.Failure("Мастер не существует");
 
+            var appointmentExisted = await _context.Appointments
+                .FirstOrDefaultAsync(x => x.MasterId == master.Id 
+                                          && x.Start < request.Appointment.End 
+                                          && x.End > request.Appointment.Start, cancellationToken: cancellationToken);
+
+            if (appointmentExisted != null) return OperationResult<Unit>.Failure("Конфликт бронирования");
+
             var appointment = _mapper.Map<Appointment>(request.Appointment);
 
             await _context.Appointments.AddAsync(appointment, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            
+
             return OperationResult<Unit>.Success(Unit.Value);
         }
     }

@@ -13,7 +13,7 @@
             {{ selectedDate }}
             <button class="cancel" @click="clearSelected">x</button>
           </span>
-          <button class="next">Далее</button>
+          <button class="next" @click="confirm">Далее</button>
         </span>
       </div>
     </div>
@@ -37,7 +37,7 @@ import SlotItem from "@/components/masters/SlotItem.vue";
 import SlotParams from "@/models/SlotParams";
 
 export default defineComponent({
-  emits: ["change-params"],
+  emits: ["change-params", "confirm-selected"],
   name: "MasterSlots",
   components: { SlotItem },
   props: {
@@ -78,6 +78,9 @@ export default defineComponent({
         timeStyle: "short",
       })}`;
     },
+    link() {
+      return this.$route.path + "/confirm";
+    },
   },
   methods: {
     initDays(nDays: number) {
@@ -111,6 +114,9 @@ export default defineComponent({
     },
     clearSelected() {
       this.selectedSlot = null;
+    },
+    confirm() {
+      this.$emit("confirm-selected", this.selectedSlot);
     },
   },
 });
