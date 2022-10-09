@@ -13,6 +13,7 @@ export const useAppointmentStore = defineStore("appointment", {
     masters: [] as Master[],
     master: {} as Master,
     masterSlots: [] as SlotModel[],
+    selectedAppointment: null as null | AppointmentSlot,
   }),
   actions: {
     async loadServices() {
@@ -46,6 +47,12 @@ export const useAppointmentStore = defineStore("appointment", {
     },
     async saveAppointment(appointment: AppointmentSlot) {
       await agent.Appointments.create(appointment);
+    },
+    confirmAppointment(appointment: AppointmentSlot) {
+      this.selectedAppointment = appointment;
+    },
+    clearAppointment() {
+      this.selectedAppointment = null;
     },
   },
   getters: {

@@ -4,19 +4,15 @@ import ServicesList from "@/views/services/ServicesList.vue";
 import MastersList from "@/views/masters/MastersList.vue";
 import ServiceDetails from "@/views/services/ServiceDetails.vue";
 import MasterDetails from "@/views/masters/MasterDetails.vue";
-// import MasterConfirm from "@/views/masters/MasterConfirm.vue";
+import MasterConfirm from "@/views/masters/MasterConfirm.vue";
 
 const routes: Array<RouteRecordRaw> = [
   { path: "/", redirect: "/services" },
   { path: "/services", component: ServicesList },
   { path: "/services/:id", component: ServiceDetails },
   { path: "/masters", component: MastersList },
-  {
-    path: "/masters/:id",
-    component: MasterDetails,
-    props: true,
-  },
-  // { path: "/masters/:id/confirm", component: MasterConfirm },
+  { path: "/masters/:id", component: MasterDetails, props: true },
+  { path: "/masters/:id/confirm", component: MasterConfirm, props: true },
 ];
 
 const router = createRouter({
