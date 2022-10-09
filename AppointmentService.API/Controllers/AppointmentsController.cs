@@ -11,7 +11,7 @@ public class AppointmentsController : BaseApiController
 {
     [AllowAnonymous]
     [HttpPost]
-    [ProducesResponseType(typeof(OperationResult<Unit>), (int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(OperationResult<Unit>), (int)HttpStatusCode.Conflict)]
     [ProducesResponseType(typeof(OperationResult<AppointmentDto>), (int)HttpStatusCode.Created)]
     public async Task<ActionResult<OperationResult<AppointmentDto>>> CreateAppointment(AppointmentDto appointment)
     {
@@ -23,7 +23,7 @@ public class AppointmentsController : BaseApiController
                 OperationResult<AppointmentDto>.Success(appointment));
         }
 
-        return BadRequest(result);
+        return Conflict(result);
     }
 
     [AllowAnonymous]

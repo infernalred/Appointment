@@ -1,12 +1,31 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { OperationResult } from "@/models/OperationResult";
 import Service from "@/models/Service";
 import Master from "@/models/Master";
 import SlotModel from "@/models/SlotModel";
 import SlotParams from "@/models/SlotParams";
 import AppointmentSlot from "@/models/AppointmentSlot";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 axios.defaults.baseURL = process.env.VUE_APP_API_ADDRESS;
+
+axios.interceptors.response.use(
+  async (response) => {
+    return response;
+  },
+  (error: AxiosError) => {
+    const { data, status, config } = error.response!;
+    switch (status) {
+      case 409:
+        toast.error(
+          (data as OperationResult<never>).error || "Произошла ошибка"
+        );
+    }
+    return Promise.reject(error);
+  }
+);
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -39,7 +58,7 @@ const Masters = {
 
 const Appointments = {
   create: (appointment: AppointmentSlot) =>
-    requests.post<void>("/appointments", appointment),
+    requests.post<OperationResult<unknown>>("/appointments", appointment),
 };
 
 const agent = {

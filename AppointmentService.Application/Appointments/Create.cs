@@ -50,7 +50,7 @@ public class Create
                                           && x.Start < request.Appointment.End 
                                           && x.End > request.Appointment.Start, cancellationToken: cancellationToken);
 
-            if (appointmentExisted != null) return OperationResult<Unit>.Failure("Конфликт бронирования");
+            if (appointmentExisted != null) return OperationResult<Unit>.Failure("Конфликт бронирования. Выберите другой временной слот.");
 
             var appointment = _mapper.Map<Appointment>(request.Appointment);
 

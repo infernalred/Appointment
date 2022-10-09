@@ -45,10 +45,7 @@ export const useAppointmentStore = defineStore("appointment", {
       this.masterSlots = slots;
     },
     async saveAppointment(appointment: AppointmentSlot) {
-      const response = await agent.Appointments.create(appointment);
-      debugger;
-      console.log(response);
-      return response;
+      await agent.Appointments.create(appointment);
     },
   },
   getters: {

@@ -24,7 +24,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions, mapState } from "pinia";
 import { useAppointmentStore } from "@/store";
 import Master from "@/models/Master";
 import MasterSlots from "@/components/masters/MasterSlots.vue";
@@ -32,6 +31,9 @@ import SlotModel from "@/models/SlotModel";
 import SlotParams from "@/models/SlotParams";
 import AppointmentSlot from "@/models/AppointmentSlot";
 import MasterConfirm from "@/components/masters/MasterConfirm.vue";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 export default defineComponent({
   name: "MasterDetails",
@@ -45,16 +47,15 @@ export default defineComponent({
       } as SlotParams,
       confirmed: false,
       appointmentSlot: null as null | AppointmentSlot,
+      store: useAppointmentStore(),
     };
   },
   computed: {
-    ...mapState(useAppointmentStore, ["currentMaster"]),
-    ...mapState(useAppointmentStore, ["masterSlots"]),
     getMaster(): Master {
-      return this.currentMaster;
+      return this.store.currentMaster;
     },
     getMasterSlots(): SlotModel[] {
-      return this.masterSlots;
+      return this.store.masterSlots;
     },
   },
   created() {
@@ -62,19 +63,16 @@ export default defineComponent({
     this.initSlots(this.id, this.slotParams);
   },
   methods: {
-    ...mapActions(useAppointmentStore, ["loadMaster"]),
-    ...mapActions(useAppointmentStore, ["loadSlots"]),
-    ...mapActions(useAppointmentStore, ["saveAppointment"]),
     async initMaster(id: string) {
       try {
-        await this.loadMaster(id);
+        await this.store.loadMaster(id);
       } catch (e) {
         console.log(e);
       }
     },
     async initSlots(id: string, slotParams: SlotParams) {
       try {
-        await this.loadSlots(id, slotParams);
+        await this.store.loadSlots(id, slotParams);
       } catch (e) {
         console.log(e);
       }
@@ -95,10 +93,11 @@ export default defineComponent({
     },
     async saveData(appointment: AppointmentSlot) {
       try {
-        await this.saveAppointment(appointment);
-        this.$router.replace("/masters");
-      } catch (e: any) {
-        console.log(e.response.data);
+        await this.store.saveAppointment(appointment);
+        toast.success("Бронирование выполнено успешно");
+        this.$router.push("/masters");
+      } catch (e) {
+        console.log(e);
       }
     },
   },
