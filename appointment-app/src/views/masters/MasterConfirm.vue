@@ -1,35 +1,31 @@
 <template>
   <section>
     <base-card>
-      <header>Подтвердите расписание сеанса</header>
-      <div class="content">
-        <ul>
-          <li>
+      <n-result
+        v-if="!confirmed"
+        status="info"
+        title="Подтвердите расписание сеанса"
+      >
+        <template #footer>
+          <div class="content">
             <div class="scheduleItem">
               <div class="scheduleItemRow">
-                <div class="iconWrap">
-                  <svg
-                    height="24"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="iconSuccess"
-                  >
-                    <path
-                      d="M12 24C5.373 24 0 18.627 0 12S5.373 0 12 0s12 5.373 12 12-5.373 12-12 12zm5.078-16.7L9.72 14.499l-2.797-2.736-1.637 1.6L9.719 17.7l8.996-8.798z"
-                    ></path>
-                  </svg>
-                </div>
                 <div class="scheduleTime">{{ time }}</div>
-                <button class="closeButton">x</button>
+                <button class="closeButton" @click="clear">x</button>
               </div>
             </div>
-          </li>
-        </ul>
-        <master-appointment-form
-          @save-appointment="saveAppointment"
-          :appointment="appointment"
-        ></master-appointment-form>
-      </div>
+            <appointment-form
+              :appointment="appointment"
+              @save-appointment="saveAppointment"
+            ></appointment-form>
+          </div>
+        </template>
+      </n-result>
+      <n-result
+        v-else
+        status="success"
+        title="Бронирование создано успешно"
+      ></n-result>
     </base-card>
   </section>
 </template>
@@ -38,24 +34,26 @@
 import { defineComponent } from "vue";
 import { useAppointmentStore } from "@/store";
 import AppointmentSlot from "@/models/AppointmentSlot";
-import MasterAppointmentForm from "@/components/masters/MasterAppointmentForm.vue";
 import { useToast } from "vue-toastification";
+import AppointmentForm from "@/components/masters/AppointmentForm.vue";
 
 const toast = useToast();
 
 export default defineComponent({
   name: "MasterConfirm",
-  components: { MasterAppointmentForm },
+  components: { AppointmentForm },
   props: ["id"],
   data() {
     return {
       store: useAppointmentStore(),
       appointment: {} as AppointmentSlot,
+      confirmed: false,
     };
   },
   created() {
     const appointment = this.store.selectedAppointment;
     if (appointment === null || appointment.masterId !== this.id) {
+      console.log("Пустой");
       this.$router.replace(`/masters/${this.id}`);
     } else {
       this.appointment = appointment;
@@ -81,46 +79,32 @@ export default defineComponent({
   methods: {
     async saveAppointment(appointment: AppointmentSlot) {
       try {
-        await this.store.saveAppointment(appointment);
+        console.log(appointment);
+        // await this.store.saveAppointment(appointment);
         toast.success("Бронирование выполнено успешно");
         this.store.clearAppointment();
-        this.$router.push("/masters");
+        this.confirmed = true;
       } catch (e) {
         console.log(e);
       }
+    },
+    clear() {
+      this.store.clearAppointment();
+      this.$router.replace(`/masters/${this.id}`);
     },
   },
 });
 </script>
 
 <style scoped>
-header {
-  display: flex;
-  margin-bottom: 24px;
-  color: rgb(56, 64, 71);
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.33333;
-  justify-content: center;
-}
-
 .content {
   margin-bottom: 24px;
 }
 
-ul {
-  margin-bottom: 16px;
-  list-style-type: none;
-  font-size: 14px;
-}
-
-li {
+.scheduleItem {
   border: 1px solid rgb(218, 223, 225);
   margin-bottom: 12px;
   border-radius: 4px;
-}
-
-.scheduleItem {
   padding: 16px 0px 16px 16px;
 }
 
@@ -137,19 +121,6 @@ li {
   margin-bottom: 0px;
 }
 
-.iconWrap {
-  margin-right: 8px;
-  width: 24px;
-  font-size: 0px;
-  text-align: center;
-}
-
-.iconSuccess {
-  width: 24px;
-  height: 24px;
-  fill: rgb(80, 191, 22);
-}
-
 .scheduleTime {
   font-weight: 500;
 }
@@ -163,68 +134,5 @@ li {
   border: 0;
   outline: 0;
   cursor: pointer;
-}
-
-.finish {
-  position: relative;
-  display: inline-flex;
-  justify-content: center;
-  border: 0;
-  align-items: center;
-  min-height: 32px;
-  font-size: 14px;
-  line-height: 1;
-  text-decoration: none;
-  font-weight: 500;
-  border-radius: 2px;
-  text-align: center;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 100%;
-  cursor: pointer;
-  outline: 0;
-  transition: background-color 50ms;
-  color: #fff;
-  background-color: #3bb3bd;
-  padding: 8px 16px;
-}
-
-.form-control {
-  margin: 0.5rem 0;
-}
-
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-input[type="checkbox"] + label {
-  font-weight: normal;
-  display: inline;
-  margin: 0 0 0 0.5rem;
-}
-
-input,
-textarea {
-  display: block;
-  width: 100%;
-  border: 1px solid #ccc;
-  font: inherit;
-}
-
-.invalid label {
-  color: red;
-}
-
-.invalid input,
-.invalid textarea {
-  border: 1px solid red;
-}
-
-button:disabled {
-  background-color: rgba(19, 1, 1, 0.3);
-  border-color: rgba(195, 195, 195, 0.3);
-  color: rgba(16, 16, 16, 0.3);
 }
 </style>

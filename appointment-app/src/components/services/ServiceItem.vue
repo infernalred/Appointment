@@ -6,7 +6,17 @@
       </header>
       <img alt="" :src="image" />
       <h4>{{ service.description }}</h4>
-      <base-button link :to="serviceLink">Подробнее</base-button>
+      <router-link :to="serviceLink"
+        ><n-button
+          strong
+          secondary
+          round
+          type="primary"
+          size="small"
+          class="n-button"
+          >Подробнее</n-button
+        ></router-link
+      >
     </base-card>
   </div>
 </template>
@@ -40,5 +50,8 @@ export default defineComponent({
 img {
   width: 150px;
   height: 150px;
+}
+a {
+  text-decoration: none;
 }
 </style>

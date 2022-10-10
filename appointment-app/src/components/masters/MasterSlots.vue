@@ -2,18 +2,29 @@
   <h1>Часы приема</h1>
   <section class="timeSlots">
     <div class="management">
-      <base-button :disabled="isToday" @click="setSlotParams(-7)"
-        >&#60;</base-button
+      <n-button
+        :disabled="isToday"
+        round
+        type="primary"
+        size="small"
+        @click="setSlotParams(-7)"
+        >&#60;</n-button
       >
-      <base-button @click="setSlotParams(7)">&#62;</base-button>
+      <n-button round type="primary" size="small" @click="setSlotParams(7)"
+        >&#62;</n-button
+      >
       <h3>{{ weekLabelDate }}</h3>
       <div v-if="selectedSlot">
         <span
           ><span>
             {{ selectedDate }}
-            <button class="cancel" @click="clearSelected">x</button>
+            <n-button type="error" size="small" @click="clearSelected"
+              >x</n-button
+            >
           </span>
-          <button class="next" @click="confirm">Далее</button>
+          <n-button type="primary" size="small" @click="confirm"
+            >Далее</n-button
+          >
         </span>
       </div>
     </div>
@@ -161,15 +172,6 @@ span {
 
 .cancel {
   width: 32px;
-  height: 38px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: rgb(255, 255, 255);
-}
-
-.next {
-  width: auto;
   height: 38px;
   border: none;
   background: none;
