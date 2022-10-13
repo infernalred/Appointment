@@ -5,6 +5,10 @@ import Master from "@/models/Master";
 import SlotParams from "@/models/SlotParams";
 import SlotModel from "@/models/SlotModel";
 import AppointmentSlot from "@/models/AppointmentSlot";
+import Account from "@/models/Account";
+import LoginModel from "@/models/LoginModel";
+
+let timer: number;
 
 export const useAppointmentStore = defineStore("appointment", {
   state: () => ({
@@ -14,6 +18,9 @@ export const useAppointmentStore = defineStore("appointment", {
     master: {} as Master,
     masterSlots: [] as SlotModel[],
     selectedAppointment: null as null | AppointmentSlot,
+    account: null as null | Account,
+    token: "",
+    didAutoLogout: false,
   }),
   actions: {
     async loadServices() {
@@ -54,6 +61,55 @@ export const useAppointmentStore = defineStore("appointment", {
     clearAppointment() {
       this.selectedAppointment = null;
     },
+    async login(cred: LoginModel) {
+      const response = await agent.Users.login(cred);
+
+      localStorage.setItem("appointment_token", response.token);
+      localStorage.setItem("appointment_user", JSON.stringify(response));
+      const jwt = JSON.parse(atob(response.token.split(".")[1]));
+      const expDate = jwt.exp * 1000 - new Date().getTime();
+      console.log(expDate);
+      console.log(new Date(expDate).getTime());
+      console.log(new Date().getTime());
+
+      timer = setTimeout(() => this.autoLogout(), expDate);
+
+      console.log("login");
+      this.account = response;
+      this.token = response.token;
+    },
+    tryLogin() {
+      const token = localStorage.getItem("appointment_token");
+      const user = localStorage.getItem("appointment_user");
+      if (!token) {
+        return;
+      }
+      const jwt = JSON.parse(atob(token.split(".")[1]));
+
+      const expiresIn = jwt.exp * 1000 - new Date().getTime();
+      console.log("ExpresIn");
+      console.log(expiresIn);
+      if (expiresIn < 0) {
+        return;
+      }
+      timer = setTimeout(() => this.autoLogout(), expiresIn);
+
+      if (token && user) {
+        this.token = token;
+        this.account = JSON.parse(user);
+      }
+    },
+    logout() {
+      localStorage.removeItem("appointment_token");
+      localStorage.removeItem("appointment_user");
+      clearTimeout(timer);
+      this.token = "";
+      this.account = null;
+    },
+    autoLogout() {
+      console.log("autologout");
+      this.logout();
+    },
   },
   getters: {
     allServices(): Service[] {
@@ -67,6 +123,9 @@ export const useAppointmentStore = defineStore("appointment", {
     },
     currentMaster(): Master {
       return this.master;
+    },
+    isAuthenticated(): boolean {
+      return !!this.token;
     },
   },
 });

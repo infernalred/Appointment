@@ -1,6 +1,10 @@
 <template>
   <h2>{{ master.displayName }}</h2>
-  <base-button link :to="masterLink">Подробнее</base-button>
+  <router-link :to="masterLink"
+    ><n-button strong secondary round type="primary" size="large"
+      >Подробнее</n-button
+    ></router-link
+  >
 </template>
 
 <script lang="ts">
@@ -23,4 +27,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+a {
+  text-decoration: none;
+}
+</style>

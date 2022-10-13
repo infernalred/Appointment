@@ -5,6 +5,8 @@ import MastersList from "@/views/masters/MastersList.vue";
 import ServiceDetails from "@/views/services/ServiceDetails.vue";
 import MasterDetails from "@/views/masters/MasterDetails.vue";
 import MasterConfirm from "@/views/masters/MasterConfirm.vue";
+import DashboardAdmin from "@/views/dashboard/DashboardAdmin.vue";
+import UserAuth from "@/views/auth/UserAuth.vue";
 
 const routes: Array<RouteRecordRaw> = [
   { path: "/", redirect: "/services" },
@@ -13,6 +15,8 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/masters", component: MastersList },
   { path: "/masters/:id", component: MasterDetails, props: true },
   { path: "/masters/:id/confirm", component: MasterConfirm, props: true },
+  { path: "/auth", component: UserAuth },
+  { path: "/dashboard", component: DashboardAdmin },
 ];
 
 const router = createRouter({

@@ -53,7 +53,6 @@ export default defineComponent({
   created() {
     const appointment = this.store.selectedAppointment;
     if (appointment === null || appointment.masterId !== this.id) {
-      console.log("Пустой");
       this.$router.replace(`/masters/${this.id}`);
     } else {
       this.appointment = appointment;

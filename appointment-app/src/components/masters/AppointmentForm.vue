@@ -26,8 +26,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
-import { FormInst } from "naive-ui";
+import { computed, defineComponent, PropType, ref } from "vue";
+import { FormInst, FormItemRule } from "naive-ui";
 import AppointmentSlot from "@/models/AppointmentSlot";
 
 export default defineComponent({
@@ -46,11 +46,20 @@ export default defineComponent({
       formRef,
       formValue,
       rules: {
-        phone: {
-          required: true,
-          message: "Please input your number",
-          trigger: ["blur", "input"],
-        },
+        phone: [
+          {
+            required: true,
+            validator(rule: FormItemRule, value: string) {
+              if (!value) {
+                return new Error("Номер телефона обязателен");
+              } else if (value.length !== 11) {
+                return new Error("Введите валидный номер телефона");
+              }
+              return true;
+            },
+            trigger: ["blur", "input"],
+          },
+        ],
       },
       isNumber(evt: KeyboardEvent): void {
         const keysAllowed: string[] = [
@@ -81,12 +90,10 @@ export default defineComponent({
         };
         emit("save-appointment", appointment);
       },
+      isValidForm: computed(() => {
+        return formValue.value.phone.length !== 11;
+      }),
     };
-  },
-  computed: {
-    isValidForm() {
-      return this.formValue.phone.length !== 11;
-    },
   },
 });
 </script>

@@ -7,13 +7,7 @@
       <img alt="" :src="image" />
       <h4>{{ service.description }}</h4>
       <router-link :to="serviceLink"
-        ><n-button
-          strong
-          secondary
-          round
-          type="primary"
-          size="small"
-          class="n-button"
+        ><n-button strong secondary round type="primary" size="small"
           >Подробнее</n-button
         ></router-link
       >

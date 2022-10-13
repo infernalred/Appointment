@@ -1,7 +1,11 @@
 <template>
   <li>
     <header>{{ master.displayName }}</header>
-    <base-button link :to="masterLink">Подробнее</base-button>
+    <router-link :to="masterLink"
+      ><n-button strong secondary round type="primary" size="large"
+        >Подробнее</n-button
+      ></router-link
+    >
   </li>
 </template>
 
@@ -31,5 +35,8 @@ li {
   border: 1px solid #424242;
   border-radius: 12px;
   padding: 1rem;
+}
+a {
+  text-decoration: none;
 }
 </style>

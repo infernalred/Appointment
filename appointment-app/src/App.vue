@@ -29,7 +29,16 @@ nav a.router-link-exact-active {
 <script>
 import TheHeader from "@/components/layout/TheHeader.vue";
 import TheFooter from "@/components/layout/TheFooter.vue";
+import { useAppointmentStore } from "@/store";
 export default {
   components: { TheFooter, TheHeader },
+  data() {
+    return {
+      store: useAppointmentStore(),
+    };
+  },
+  created() {
+    this.store.tryLogin();
+  },
 };
 </script>

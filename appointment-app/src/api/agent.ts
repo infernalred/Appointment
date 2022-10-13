@@ -6,6 +6,8 @@ import SlotModel from "@/models/SlotModel";
 import SlotParams from "@/models/SlotParams";
 import AppointmentSlot from "@/models/AppointmentSlot";
 import { useToast } from "vue-toastification";
+import LoginModel from "@/models/LoginModel";
+import Account from "@/models/Account";
 
 const toast = useToast();
 
@@ -16,7 +18,8 @@ axios.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
-    const { data, status, config } = error.response!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const { data, status } = error.response!;
     switch (status) {
       case 409:
         toast.error(
@@ -61,10 +64,15 @@ const Appointments = {
     requests.post<OperationResult<unknown>>("/appointments", appointment),
 };
 
+const Users = {
+  login: (login: LoginModel) => requests.post<Account>("/users/login", login),
+};
+
 const agent = {
   Services,
   Masters,
   Appointments,
+  Users,
 };
 
 export default agent;

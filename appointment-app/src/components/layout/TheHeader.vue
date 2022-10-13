@@ -5,15 +5,31 @@
       <ul>
         <li><router-link to="/services">Услуги</router-link></li>
         <li><router-link to="/masters">Мастера</router-link></li>
+        <li>
+          <router-link v-if="isAuthenticated" to="/dashboard"
+            >Управление</router-link
+          ><router-link v-else to="/auth">Войти</router-link>
+        </li>
       </ul>
     </nav>
   </header>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { computed, defineComponent, ref } from "vue";
+import { useAppointmentStore } from "@/store";
+
+export default defineComponent({
   name: "TheHeader",
-};
+  setup() {
+    const store = useAppointmentStore();
+    const showModalRef = ref(false);
+    return {
+      model: showModalRef,
+      isAuthenticated: computed(() => store.isAuthenticated),
+    };
+  },
+});
 </script>
 
 <style scoped>
@@ -24,6 +40,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: auto;
 }
 
 header a {
@@ -56,7 +73,7 @@ h1 a.router-link-active {
 }
 
 header nav {
-  width: 45rem;
+  max-width: 40rem;
   margin: auto;
   display: flex;
   justify-content: space-between;
