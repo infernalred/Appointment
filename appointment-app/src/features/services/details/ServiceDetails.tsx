@@ -3,6 +3,8 @@ import {observer} from "mobx-react-lite";
 import {useStore} from "../../../app/store/store";
 import {useParams} from "react-router-dom";
 import {Grid} from "semantic-ui-react";
+import ServiceDetailsHeader from "./ServiceDetailsHeader";
+import ServiceDetailsMasters from "./ServiceDetailsMasters";
 
 export default observer(function ServiceDetails() {
     const {serviceStore} = useStore();
@@ -15,11 +17,13 @@ export default observer(function ServiceDetails() {
         }
     }, [id, loadService])
 
-    if (loading) return <h1>Загрузка</h1>
+    if (loading || !service) return <h1>Загрузка</h1>
 
     return (
-        <Grid>
-            <Grid.Column width={8}></Grid.Column>
+        <Grid centered>
+            <Grid.Column mobile={16} computer={4}>
+                <ServiceDetailsHeader service={service}/>
+            </Grid.Column>
         </Grid>
     )
 })

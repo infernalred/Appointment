@@ -37,12 +37,12 @@ export default class ServiceStore {
         if (service) {
             this.service = service;
         } else {
+            this.setLoading(true);
             try {
-                this.setLoading(true);
                 const response = await agent.Services.details(id);
                 this.setService(response.result);
                 runInAction(() => {
-                    this.service = service;
+                    this.service = response.result;
                 })
             } catch (e) {
                 console.log(e);

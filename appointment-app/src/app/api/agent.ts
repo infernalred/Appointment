@@ -5,7 +5,7 @@ import {LoginModel} from "../models/LoginModel";
 import {Account} from "../models/Account";
 import {SlotModel} from "../models/SlotModel";
 import {SlotParams} from "../models/SlotParams";
-import {Master} from "../models/Master";
+import Master from "../models/Master";
 import Service from "../models/Service";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;

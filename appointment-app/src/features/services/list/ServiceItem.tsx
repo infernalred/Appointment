@@ -10,10 +10,10 @@ interface Props {
 export default function ServiceItem({service}: Props) {
     return (
         <Card fluid>
-            <Segment textAlign='center'
-                     attached='top'
+            <Segment textAlign="center"
+                     attached="top"
                      inverted
-                     color='teal'
+                     color="teal"
                      style={{border: 'none'}}
             >
                 <Header>{service.title}</Header>

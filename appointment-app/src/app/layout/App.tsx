@@ -6,6 +6,7 @@ import MasterList from "../../features/masters/MasterList";
 import {observer} from "mobx-react-lite";
 import Navbar from "./Navbar";
 import {Container} from "semantic-ui-react";
+import ServiceDetails from "../../features/services/details/ServiceDetails";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Navigate to="/services" replace/>}/>
                     <Route path="/services" element={<ServiceList/>}/>
+                    <Route path="/services/:id" element={<ServiceDetails/>} />
                     <Route path="/masters" element={<MasterList/>}/>
                 </Routes>
                 <footer style={{textAlign: 'center'}}>Appointment ©2022 Created by infernalred</footer>
