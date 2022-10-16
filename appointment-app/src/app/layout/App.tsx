@@ -10,7 +10,7 @@ import {Container} from "semantic-ui-react";
 function App() {
     return (
         <>
-            <Container style={{marginTop: "2em"}}>
+            <Container fluid style={{marginTop: "2em"}}>
                 <Navbar/>
                 <Routes>
                     <Route path="/" element={<Navigate to="/services" replace/>}/>
