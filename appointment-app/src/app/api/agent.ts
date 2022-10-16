@@ -8,7 +8,7 @@ import {SlotParams} from "../models/SlotParams";
 import {Master} from "../models/Master";
 import Service from "../models/Service";
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL!;
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -21,20 +21,16 @@ const requests = {
 
 const Services = {
     list: () => requests.get<OperationResult<Service[]>>("/services"),
-    details: (id: number) =>
-        requests.get<OperationResult<Service>>(`/services/${id}`),
+    details: (id: number) => requests.get<OperationResult<Service>>(`/services/${id}`),
 };
 
 const Masters = {
     list: () => requests.get<OperationResult<Master[]>>("/masters"),
-    details: (id: string) =>
-        requests.get<OperationResult<Master>>(`/masters/${id}`),
-    freeSlots: (id: string, slotParams?: SlotParams) =>
-        axios
-            .get<OperationResult<SlotModel[]>>(`/masters/slots/${id}`, {
+    details: (id: string) => requests.get<OperationResult<Master>>(`/masters/${id}`),
+    freeSlots: (id: string, slotParams?: SlotParams) => axios.get<OperationResult<SlotModel[]>>(
+        `/masters/slots/${id}`, {
                 params: slotParams,
-            })
-            .then(responseBody),
+            }).then(responseBody),
 };
 
 const Appointments = {
@@ -52,3 +48,5 @@ const agent = {
     Appointments,
     Users,
 };
+
+export default agent;
