@@ -33,7 +33,7 @@ export default class ServiceStore {
     }
 
     loadService = async (id: number) => {
-        let service = this.getService(id);
+        const service = this.getService(id);
         if (service) {
             this.service = service;
         } else {

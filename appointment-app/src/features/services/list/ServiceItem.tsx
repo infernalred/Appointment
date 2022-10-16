@@ -1,6 +1,6 @@
 import React from "react";
 import Service from "../../../app/models/Service";
-import {Button, Card, Header, Image, Segment, Item} from "semantic-ui-react";
+import {Button, Card, Header, Image, Segment} from "semantic-ui-react";
 import {NavLink} from "react-router-dom";
 
 interface Props {

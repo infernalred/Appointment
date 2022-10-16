@@ -1,6 +1,6 @@
 import React from "react";
 import Service from "../../../app/models/Service";
-import {Header, Segment, Icon, Item, Image} from "semantic-ui-react";
+import {Header, Segment, Icon, Item} from "semantic-ui-react";
 import ServiceDetailsMasters from "./ServiceDetailsMasters";
 
 interface Props {

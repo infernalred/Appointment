@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import {Navigate, Route, Routes} from "react-router-dom";
 import ServiceList from "../../features/services/list/ServiceList";
-import MasterList from "../../features/masters/MasterList";
+import MasterList from "../../features/masters/list/MasterList";
 import {observer} from "mobx-react-lite";
 import Navbar from "./Navbar";
 import {Container} from "semantic-ui-react";

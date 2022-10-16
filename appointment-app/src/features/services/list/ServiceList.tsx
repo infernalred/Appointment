@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect} from "react";
 import {observer} from "mobx-react-lite";
 import {useStore} from "../../../app/store/store";
-import {Card, Grid, GridRow, Header, Image, Segment} from "semantic-ui-react";
+import {Card, Grid, Header, Image, Segment} from "semantic-ui-react";
 import ServiceItem from "./ServiceItem";
 
 export default observer(function ServiceList() {

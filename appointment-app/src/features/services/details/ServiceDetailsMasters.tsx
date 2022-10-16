@@ -1,6 +1,6 @@
 import React from "react";
 import Master from "../../../app/models/Master";
-import {Button, Card, Header, Icon, Item, List, Segment} from "semantic-ui-react";
+import {Button, Item, List, Segment} from "semantic-ui-react";
 import {NavLink} from "react-router-dom";
 
 interface Props {
