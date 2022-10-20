@@ -19,7 +19,6 @@ export default observer(function ServiceList() {
     return (
         <Grid centered>
             <Grid.Column mobile={16} computer={4}>
-
                 <Card fluid>
                     <Segment textAlign="center"
                              attached="top"

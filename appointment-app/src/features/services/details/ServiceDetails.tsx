@@ -4,7 +4,6 @@ import {useStore} from "../../../app/store/store";
 import {useParams} from "react-router-dom";
 import {Grid} from "semantic-ui-react";
 import ServiceDetailsHeader from "./ServiceDetailsHeader";
-import ServiceDetailsMasters from "./ServiceDetailsMasters";
 
 export default observer(function ServiceDetails() {
     const {serviceStore} = useStore();

@@ -7,6 +7,8 @@ import {observer} from "mobx-react-lite";
 import Navbar from "./Navbar";
 import {Container} from "semantic-ui-react";
 import ServiceDetails from "../../features/services/details/ServiceDetails";
+import MasterDetails from "../../features/masters/details/MasterDetails";
+import MasterConfirm from "../../features/masters/confirm/MasterConfirm";
 
 function App() {
     return (
@@ -18,6 +20,8 @@ function App() {
                     <Route path="/services" element={<ServiceList/>}/>
                     <Route path="/services/:id" element={<ServiceDetails/>} />
                     <Route path="/masters" element={<MasterList/>}/>
+                    <Route path="/masters/:id" element={<MasterDetails/>}/>
+                    <Route path="/masters/:id/confirm" element={<MasterConfirm/>}/>
                 </Routes>
                 <footer style={{textAlign: 'center'}}>Appointment ©2022 Created by infernalred</footer>
             </Container>

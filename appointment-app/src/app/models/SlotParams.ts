@@ -1,4 +1,9 @@
-export interface SlotParams {
-  start: Date;
-  quantityDays: number;
+export class SlotParams {
+  start;
+  quantityDaysNumber;
+
+  constructor(start = new Date(), quantityDaysNumber = 6) {
+    this.start = start;
+    this.quantityDaysNumber = quantityDaysNumber;
+  }
 }

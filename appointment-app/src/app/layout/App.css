@@ -40,3 +40,63 @@
     font-size: 1.7em;
     font-weight: normal;
 }
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2rem;
+}
+.ulSlots {
+    margin: 0;
+    padding: 0;
+    border-top: 4px solid rgb(59, 179, 189);
+    background: rgb(243, 250, 251);
+}
+
+.buttonSlot {
+    height: 32px;
+    color: rgb(59, 179, 189);
+    font-size: 12px;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: 2px;
+    background-color: rgb(243, 250, 251);
+}
+
+.buttonSlot:hover,
+.buttonSlot:active {
+    border-color: rgb(59, 179, 189);
+}
+
+.buttonSlot:disabled {
+    color: rgb(174, 181, 188);
+    border: 1px solid transparent;
+    cursor: pointer;
+    border-radius: 2px;
+    pointer-events: none;
+    touch-action: none;
+}
+
+.selected {
+    background-color: rgb(59, 179, 189);
+    color: rgb(255, 255, 255);
+}
+
+.selectedDay {
+    /*height: 32px;*/
+    padding-left: 2px;
+    font: inherit;
+    font-weight: 500;
+    position: relative;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 2px;
+    background-color: rgb(59, 179, 189);
+    color: rgb(255, 255, 255);
+    margin-left: 0.5rem;
+}

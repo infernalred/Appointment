@@ -20,7 +20,7 @@ export default function MasterItem({master}: Props) {
             </Segment>
             <Image src={master.image || "/assets/user.png"}/>
             <Card.Content extra>
-                <Button as={NavLink} to={`/masters/${master.id}`} positive>Подробнее</Button>
+                <Button floated={"right"} as={NavLink} to={`/masters/${master.id}`} positive>Подробнее</Button>
             </Card.Content>
         </Card>
     )
