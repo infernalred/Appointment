@@ -1,5 +1,5 @@
 .ui.inverted.top.fixed.menu {
-    background-image: linear-gradient(135deg, rgb(0, 100, 0) 0%, rgb(56, 176, 0) 69%, rgb(158, 240, 26) 89%) !important;
+    background-image: linear-gradient(135deg, rgb(22, 91, 126) 0%, rgb(33, 138, 174) 69%, rgb(59, 179, 189) 89%) !important;
 }
 
 .react-calendar {
@@ -88,7 +88,6 @@
 }
 
 .selectedDay {
-    /*height: 32px;*/
     padding-left: 2px;
     font: inherit;
     font-weight: 500;

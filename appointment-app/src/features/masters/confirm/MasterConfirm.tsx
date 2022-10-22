@@ -47,23 +47,24 @@ export default observer(function MasterConfirm() {
 
     function isNumber(evt: React.KeyboardEvent<HTMLInputElement>): void {
         const keysAllowed: string[] = [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-    ];
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+        ];
         const keyPressed: string = evt.key;
 
         if (!keysAllowed.includes(keyPressed)) {
             evt.preventDefault();
         }
     }
+
     useEffect(() => {
         if (!selected) {
             navigate("/masters/");
@@ -79,23 +80,24 @@ export default observer(function MasterConfirm() {
                         <Step completed>
                             <Step.Content>
                                 <Step.Title>Бронирование</Step.Title>
-                                <Step.Description>успешно подтверждено. Спасибо за использование онлайн сервиса</Step.Description>
+                                <Step.Description>успешно подтверждено. Спасибо за использование онлайн
+                                    сервиса</Step.Description>
                             </Step.Content>
                         </Step>
                     </Step.Group>
-                    ) : (
+                ) : (
                     <Segment.Group>
                         <Segment textAlign="center"
                                  attached="top"
                                  inverted
                                  color="teal"
                                  style={{border: "none"}}>
-                            <Header as={"h2"}><Icon name={"info"} />Подтвердите расписание сеанса</Header>
+                            <Header as={"h2"}><Icon name={"info"}/>Подтвердите расписание сеанса</Header>
                         </Segment>
                         <Segment>
                             <Item.Description>
                             <span>
-                                <Icon name={"clock"} />
+                                <Icon name={"clock"}/>
                                 {time()}
                             </span>
                             </Item.Description>
@@ -107,12 +109,14 @@ export default observer(function MasterConfirm() {
                                 initialValues={appointment}
                                 validateOnMount={true}
                                 onSubmit={values => handleSubmit(values)}>
-                                {({ handleSubmit, isValid, isSubmitting, dirty }) => (
+                                {({handleSubmit, isValid, isSubmitting, dirty}) => (
                                     <Form className={"ui form"} onSubmit={handleSubmit} autoComplete={"off"}>
                                         <label>Номер телефона</label>
-                                        <MyTextInput onKeyPress={isNumber} placeholder={"Введите номер телефона"} name={"phone"} />
+                                        <MyTextInput onKeyPress={isNumber} placeholder={"Введите номер телефона"}
+                                                     name={"phone"}/>
                                         <Button disabled={isSubmitting || !dirty || !isValid}
-                                                loading={isSubmitting} floated={"right"} type="submit" color={"teal"} content={"Забронировать"}/>
+                                                loading={isSubmitting} floated={"right"} type="submit" color={"teal"}
+                                                content={"Забронировать"}/>
                                     </Form>
                                 )}
                             </Formik>

@@ -1,4 +1,5 @@
 export interface Account {
-  username: string;
+  displayName: string;
+  userName: string;
   token: string;
 }
