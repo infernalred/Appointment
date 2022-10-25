@@ -14,6 +14,7 @@ import {useStore} from "../store/store";
 import DashboardPage from "../../features/dashboard/DashboardPage";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modal/ModalContainer";
+import { ToastContainer } from "react-toastify";
 
 function App() {
     const {userStore} = useStore();
@@ -27,6 +28,7 @@ function App() {
 
     return (
         <>
+            <ToastContainer position="bottom-right" hideProgressBar />
             <ModalContainer />
             <Container fluid style={{marginTop: "2em"}}>
                 <Navbar/>

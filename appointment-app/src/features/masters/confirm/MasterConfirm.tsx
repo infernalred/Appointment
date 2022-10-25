@@ -37,12 +37,11 @@ export default observer(function MasterConfirm() {
         return `${date}, ${day}, ${startTime}-${endTime}`;
     }
 
-    function handleSubmit(appointment: AppointmentSlot) {
+    async function handleSubmit(appointment: AppointmentSlot) {
         const updated = {...appointment, ...selected};
-        saveAppointment(updated).then(() => {
-            setConfirmed(true);
-            console.log("Бронирование успешно завершено");
-        })
+        await saveAppointment(updated);
+        setConfirmed(true);
+        console.log("Бронирование успешно завершено");
     }
 
     function isNumber(evt: React.KeyboardEvent<HTMLInputElement>): void {
