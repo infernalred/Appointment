@@ -14,15 +14,16 @@ public static class SecurityServiceExtensions
 {
     public static IServiceCollection AddSecurityServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIdentity<AppUser, IdentityRole>(opt =>
+        services.AddIdentityCore<AppUser>(opt =>
             {
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = true;
                 opt.Password.RequiredLength = 8;
             })
+            .AddRoles<IdentityRole>()
+            .AddRoleManager<RoleManager<IdentityRole>>()
             .AddEntityFrameworkStores<DataContext>()
             .AddSignInManager<SignInManager<AppUser>>()
-            .AddRoles<IdentityRole>()
             .AddDefaultTokenProviders();
             
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
@@ -38,7 +39,6 @@ public static class SecurityServiceExtensions
                     ValidateLifetime = true
                 };
             });
-        
         services.AddScoped<IUserAccessor, UserAccessor>();
         services.AddScoped<ITokenService, TokenService>();
         

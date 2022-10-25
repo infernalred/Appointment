@@ -21,7 +21,6 @@ public static class ApplicationServiceExtensions
             opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
 
-        services.AddMemoryCache();
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
         services.AddMediatR(typeof(Details).Assembly);
         services.AddControllers(opt =>

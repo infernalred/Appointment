@@ -1,5 +1,4 @@
 ﻿using AppointmentService.Application.Helpers;
-using AppointmentService.Application.Services;
 using AppointmentService.Persistence.Context;
 using AutoMapper;
 using FluentValidation;
@@ -7,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace AppointmentService.Application.Appointments;
+namespace AppointmentService.Application.Services;
 
 public class Edit
 {

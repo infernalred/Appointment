@@ -1,12 +1,10 @@
 ﻿using System.Net;
-using AppointmentService.Application.Appointments;
-using AppointmentService.Application.Helpers;
 using AppointmentService.Application.Services;
+using AppointmentService.Application.Helpers;
+using AppointmentService.Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Create = AppointmentService.Application.Services.Create;
-using Details = AppointmentService.Application.Services.Details;
 
 namespace AppointmentService.API.Controllers;
 
@@ -28,7 +26,7 @@ public class ServicesController : BaseApiController
         return Ok(await Mediator.Send(new List.Query()));
     }
 
-    [AllowAnonymous]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager}")]
     [HttpPost]
     [ProducesResponseType(typeof(OperationResult<ServiceDto>), (int)HttpStatusCode.Created)]
     public async Task<ActionResult<ServiceDto>> CreateService(ServiceDto service)
@@ -38,7 +36,7 @@ public class ServicesController : BaseApiController
             OperationResult<ServiceDto>.Success(service));
     }
 
-    [AllowAnonymous]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager}")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(OperationResult<Unit>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<OperationResult<Unit>>> CreateService(Guid id, ServiceDto service)

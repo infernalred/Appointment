@@ -8,8 +8,7 @@ public class ServiceValidator : AbstractValidator<ServiceDto>
     {
         RuleFor(x => x.Title).NotEmpty().MaximumLength(25);
         RuleFor(x => x.DurationMinutes)
-            .GreaterThanOrEqualTo(30)
-            .Must(value => value % 30 == 0)
+            .Must(value => value >= 30 && value % 30 == 0)
             .WithMessage("Продолжительность должна быть кратна 30");
 
     }
