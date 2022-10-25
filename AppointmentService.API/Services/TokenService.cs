@@ -15,7 +15,7 @@ public class TokenService : ITokenService
         _configuration = configuration;
     }
 
-    public string CreateToken(AppUser user)
+    public string CreateToken(AppUser user, IEnumerable<string> roles)
     {
         var claims = new List<Claim>
         {
@@ -23,6 +23,7 @@ public class TokenService : ITokenService
             new(ClaimTypes.NameIdentifier, user.Id),
             new(ClaimTypes.Email, user.Email)
         };
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

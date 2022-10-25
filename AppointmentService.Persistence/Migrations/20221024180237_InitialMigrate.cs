@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AppointmentService.Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigrate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,8 +55,7 @@ namespace AppointmentService.Persistence.Migrations
                 name: "Services",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     DurationMinutes = table.Column<int>(type: "integer", nullable: false, defaultValue: 30),
@@ -179,7 +178,7 @@ namespace AppointmentService.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    ServiceId = table.Column<int>(type: "integer", nullable: false)
+                    ServiceId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {

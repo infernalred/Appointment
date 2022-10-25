@@ -13,6 +13,7 @@ import AuthPage from "../../features/auth/AuthPage";
 import {useStore} from "../store/store";
 import DashboardPage from "../../features/dashboard/DashboardPage";
 import LoadingComponent from "./LoadingComponent";
+import ModalContainer from "../common/modal/ModalContainer";
 
 function App() {
     const {userStore} = useStore();
@@ -26,6 +27,7 @@ function App() {
 
     return (
         <>
+            <ModalContainer />
             <Container fluid style={{marginTop: "2em"}}>
                 <Navbar/>
                 <Routes>

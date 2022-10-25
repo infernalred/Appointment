@@ -6,7 +6,7 @@ import {Account} from "../models/Account";
 import SlotModel from "../models/SlotModel";
 import {SlotParams} from "../models/SlotParams";
 import Master from "../models/Master";
-import Service from "../models/Service";
+import {Service, ServiceFormValues} from "../models/Service";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -21,7 +21,9 @@ const requests = {
 
 const Services = {
     list: () => requests.get<OperationResult<Service[]>>("/services"),
-    details: (id: number) => requests.get<OperationResult<Service>>(`/services/${id}`),
+    details: (id: string) => requests.get<OperationResult<Service>>(`/services/${id}`),
+    create: (service: ServiceFormValues) => requests.post("/services", service),
+    update: (service: ServiceFormValues) => requests.put(`/services/${service.id}`, service)
 };
 
 const Masters = {

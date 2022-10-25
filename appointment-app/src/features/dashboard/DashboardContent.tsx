@@ -15,18 +15,25 @@ interface Props {
 
 export default observer(function DashboardContent() {
     const {userStore} = useStore();
+    const {isAdmin, isManager, isMaster} = userStore;
 
-    const panes = [
-        {menuItem: "Мастера", render: () => <DashboardMasters />},
-        {menuItem: "Сервисы", render: () => <DashboardServices />},
-        {menuItem: "Настройки", render: () => <DashboardTimeSettings />},
-        {menuItem: "Брони", render: () => <DashboardMyAppointments />},
-    ]
+    function panes() {
+        const panes = [];
+        if (isAdmin || isManager) {
+            panes.push({menuItem: "Мастера", render: () => <DashboardMasters />});
+            panes.push({menuItem: "Сервисы", render: () => <DashboardServices />});
+        }
+        if (isMaster) {
+            panes.push({menuItem: "Настройки", render: () => <DashboardTimeSettings />});
+            panes.push({menuItem: "Брони", render: () => <DashboardMyAppointments />});
+        }
+        return panes;
+    }
 
     return (
         <Tab
-            menu={{fluid: true, vertical: false, width: 50}}
-            panes={panes}
+            menu={{fluid: true, vertical: false}}
+            panes={panes()}
             onTabChange={(e, data) => userStore.setActiveTab(data.activeIndex)}
         />
     )

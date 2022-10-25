@@ -36,18 +36,20 @@ public class UsersController : ControllerBase
         var result = await _signInManager
             .CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-        if (result.Succeeded)
-            return CreateUserDto(user);
+        if (!result.Succeeded) return Unauthorized();
+        
+        var roles = await _userManager.GetRolesAsync(user);
+        return CreateUserDto(user, roles);
 
-        return Unauthorized();
+
     }
 
-    private UserDto CreateUserDto(AppUser user)
+    private UserDto CreateUserDto(AppUser user, IEnumerable<string> roles)
     {
         return new UserDto
         {
             DisplayName = user.DisplayName,
-            Token = _tokenService.CreateToken(user),
+            Token = _tokenService.CreateToken(user, roles),
             UserName = user.UserName
         };
     }

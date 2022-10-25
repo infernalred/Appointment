@@ -14,13 +14,15 @@ public static class SecurityServiceExtensions
 {
     public static IServiceCollection AddSecurityServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIdentityCore<AppUser>(opt =>
+        services.AddIdentity<AppUser, IdentityRole>(opt =>
             {
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = true;
+                opt.Password.RequiredLength = 8;
             })
             .AddEntityFrameworkStores<DataContext>()
             .AddSignInManager<SignInManager<AppUser>>()
+            .AddRoles<IdentityRole>()
             .AddDefaultTokenProviders();
             
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));

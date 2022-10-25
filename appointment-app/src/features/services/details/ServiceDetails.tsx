@@ -12,7 +12,7 @@ export default observer(function ServiceDetails() {
 
     useEffect(() => {
         if (id) {
-            loadService(Number(id));
+            loadService(id);
         }
     }, [id, loadService])
 

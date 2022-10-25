@@ -1,5 +1,5 @@
 import React from "react";
-import Service from "../../../app/models/Service";
+import {Service} from "../../../app/models/Service";
 import {Header, Segment, Icon, Item} from "semantic-ui-react";
 import ServiceDetailsMasters from "./ServiceDetailsMasters";
 

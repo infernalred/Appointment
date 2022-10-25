@@ -7,8 +7,22 @@ namespace AppointmentService.Persistence;
 
 public static class Seed
 {
-    public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
+    public static async Task SeedData(DataContext context, UserManager<AppUser> userManager,
+        RoleManager<IdentityRole> roleManager)
     {
+        const string adminRole = "Admin";
+        const string managerRole = "Manager";
+        const string masterRole = "Master";
+
+        if (!roleManager.Roles.Any())
+        {
+            await roleManager.CreateAsync(new IdentityRole(adminRole));
+            await roleManager.CreateAsync(new IdentityRole(managerRole));
+            await roleManager.CreateAsync(new IdentityRole(masterRole));
+
+            await context.SaveChangesAsync();
+        }
+
         if (!userManager.Users.Any())
         {
             var admin = new AppUser {DisplayName = "Admin", UserName = "admin", Email = "admin@test.com"};
@@ -23,25 +37,37 @@ public static class Seed
             await userManager.CreateAsync(master1, "Pa$$w0rd");
             await userManager.CreateAsync(master2, "Pa$$w0rd");
             await userManager.CreateAsync(master3, "Pa$$w0rd");
+
+            await context.SaveChangesAsync();
+
+            await userManager.AddToRoleAsync(admin, adminRole);
+            await userManager.AddToRoleAsync(admin, managerRole);
+            await userManager.AddToRoleAsync(manager1, managerRole);
+            await userManager.AddToRoleAsync(master1, masterRole);
+            await userManager.AddToRoleAsync(master2, masterRole);
+            await userManager.AddToRoleAsync(master3, masterRole);
+
+            await context.SaveChangesAsync();
         }
+
 
         if (!context.Services.Any())
         {
             var service1 = new Service
             {
-                Id = 1, Title = "Стрижка", Description = "Профессиональная стрижка", DurationMinutes = 30,
+                Id = Guid.Parse("cc1149bc-3e38-4e11-8496-0db1d683ae22"), Title = "Стрижка", Description = "Профессиональная стрижка", DurationMinutes = 30,
                 IsEnabled = true
             };
 
             var service2 = new Service
             {
-                Id = 2, Title = "Маникюр", Description = "Профессиональный маникюр", DurationMinutes = 60,
+                Id = Guid.Parse("a92c56ee-19e3-471f-9c70-bad22f6fcb1f"), Title = "Маникюр", Description = "Профессиональный маникюр", DurationMinutes = 60,
                 IsEnabled = true
             };
 
             var service3 = new Service
             {
-                Id = 3, Title = "Чистка лица", Description = "Профессиональная чистка", DurationMinutes = 90,
+                Id = Guid.Parse("b6db5450-27bf-48ad-9bac-da3b911d6ce4"), Title = "Чистка лица", Description = "Профессиональная чистка", DurationMinutes = 90,
                 IsEnabled = true
             };
 
@@ -55,9 +81,9 @@ public static class Seed
             var user2 = await userManager.Users.AsTracking().FirstAsync(x => x.UserName == "master2");
             var user3 = await userManager.Users.AsTracking().FirstAsync(x => x.UserName == "master3");
 
-            var service1 = await context.Services.AsTracking().FirstAsync(x => x.Id == 1);
-            var service2 = await context.Services.AsTracking().FirstAsync(x => x.Id == 2);
-            var service3 = await context.Services.AsTracking().FirstAsync(x => x.Id == 3);
+            var service1 = await context.Services.AsTracking().FirstAsync(x => x.Id == Guid.Parse("cc1149bc-3e38-4e11-8496-0db1d683ae22"));
+            var service2 = await context.Services.AsTracking().FirstAsync(x => x.Id == Guid.Parse("a92c56ee-19e3-471f-9c70-bad22f6fcb1f"));
+            var service3 = await context.Services.AsTracking().FirstAsync(x => x.Id == Guid.Parse("b6db5450-27bf-48ad-9bac-da3b911d6ce4"));
 
             var master1 = new Master {User = user1, Service = service1};
             var master2 = new Master {User = user2, Service = service2};
@@ -72,7 +98,7 @@ public static class Seed
             var master1 = await context.Masters
                 .Include(x => x.Service)
                 .AsTracking()
-                .FirstAsync(x => x.ServiceId == 1);
+                .FirstAsync(x => x.ServiceId == Guid.Parse("cc1149bc-3e38-4e11-8496-0db1d683ae22"));
 
             var dt = new DateTime(2022, 9, 12, 5, 30, 0, DateTimeKind.Utc);
 
@@ -93,7 +119,7 @@ public static class Seed
                         Start = dt.AddMinutes(j),
                         End = dt.AddMinutes(j + step)
                     };
- 
+
                     slots.Add(slot);
                 }
 

@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
 import {observer} from "mobx-react-lite";
-import {Grid, Tab, Card, Segment, Header, Image, Button} from "semantic-ui-react";
+import {Grid, Tab, Card, Image, Button} from "semantic-ui-react";
 import {useStore} from "../../app/store/store";
-import {NavLink} from "react-router-dom";
+import ServiceForm from "./form/ServiceForm";
 
 export default observer(function DashboardServices() {
-    const {serviceStore} = useStore();
+    const {serviceStore, modalStore} = useStore();
     const {serviceRegistry, services, loadServices} = serviceStore;
 
     useEffect(() => {
@@ -18,15 +18,20 @@ export default observer(function DashboardServices() {
         <Tab.Pane>
             <Grid>
                 <Grid.Column width={16}>
-                    <Button size={"small"} positive content={"+"}/>
-                    <Card.Group itemsPerRow={2}>
+                    <Button size={"small"} positive content={"+"} style={{marginBottom: 10}} onClick={() => modalStore.openModal(<ServiceForm id={""}/>)}/>
+                    <Card.Group doubling itemsPerRow={3}>
                         {services.map(service => (
                             <Card key={service.id}>
-                                <Card.Header>{service.title}</Card.Header>
-                                <Card.Description>
-                                    {service.description}
-                                </Card.Description>
-                                <Button size={"small"} positive>Изменить</Button>
+                                <Card.Content>
+                                    <Card.Header as={"h2"} color={"teal"} textAlign={"center"}>{service.title}</Card.Header>
+                                    <Image src={service.image || "/assets/service.png"} />
+                                    <Card.Description>
+                                        {service.description}
+                                    </Card.Description>
+                                </Card.Content>
+                                <Card.Content extra>
+                                    <Button fluid size={"small"} positive content={"Изменить"} onClick={() => modalStore.openModal(<ServiceForm id={service.id}/>)}/>
+                                </Card.Content>
                             </Card>
                         ))}
                     </Card.Group>

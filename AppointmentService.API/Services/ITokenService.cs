@@ -4,5 +4,5 @@ namespace AppointmentService.API.Services;
 
 public interface ITokenService
 {
-    public string CreateToken(AppUser user);
+    public string CreateToken(AppUser user, IEnumerable<string> roles);
 }

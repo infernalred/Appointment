@@ -1,10 +1,10 @@
-import Service from "../models/Service";
+import {Service, ServiceFormValues} from "../models/Service";
 import {makeAutoObservable, runInAction} from "mobx";
 import agent from "../api/agent";
 
 export default class ServiceStore {
     service: Service | undefined = undefined;
-    serviceRegistry = new Map<number, Service>();
+    serviceRegistry = new Map<string, Service>();
     loading = false;
 
     constructor() {
@@ -32,18 +32,21 @@ export default class ServiceStore {
         }
     }
 
-    loadService = async (id: number) => {
-        const service = this.getService(id);
+    loadService = async (id: string) => {
+        let service = this.getService(id);
         if (service) {
             this.service = service;
+            return service;
         } else {
             this.setLoading(true);
             try {
                 const response = await agent.Services.details(id);
+                service = response.result;
                 this.setService(response.result);
                 runInAction(() => {
                     this.service = response.result;
                 })
+                return service;
             } catch (e) {
                 console.log(e);
             }
@@ -53,11 +56,39 @@ export default class ServiceStore {
         }
     }
 
+    createService = async (service: ServiceFormValues) => {
+        try {
+            await agent.Services.create(service);
+            const newService = new Service(service);
+            this.setService(newService);
+            runInAction(() => {
+                this.service = newService;
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    updateService = async (service: ServiceFormValues) => {
+        try {
+            await agent.Services.update(service);
+            if (service.id) {
+                const updateService = {...this.getService(service.id), ...service};
+                this.setService(updateService as Service);
+                runInAction(() => {
+                    this.service = updateService as Service;
+                })
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     get services() {
         return Array.from(this.serviceRegistry.values());
     }
 
-    private getService = (id: number) => {
+    private getService = (id: string) => {
         return this.serviceRegistry.get(id);
     }
     private setService = (service: Service) => {

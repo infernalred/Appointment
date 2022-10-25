@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {observer} from "mobx-react-lite";
-import {Button, Card, Grid, Tab} from "semantic-ui-react";
+import {Button, Card, Grid, Item, List, Segment, Tab} from "semantic-ui-react";
 import {useStore} from "../../app/store/store";
 
 export default observer(function DashboardMasters() {
@@ -16,8 +16,8 @@ export default observer(function DashboardMasters() {
         <Tab.Pane>
             <Grid>
                 <Grid.Column width={16}>
-                    <Button size={"small"} positive content={"+"}/>
-                    <Card.Group itemsPerRow={2}>
+                    <Button size={"small"} positive content={"+"} style={{marginBottom: 10}}/>
+                    <Card.Group doubling itemsPerRow={4}>
                         {masters.map(master => (
                             <Card key={master.id}>
                                 <Card.Header>{master.displayName}</Card.Header>
