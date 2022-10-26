@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {observer} from "mobx-react-lite";
-import {Button, Card, Grid, Tab} from "semantic-ui-react";
+import {Button, Card, Grid, Image, Tab} from "semantic-ui-react";
 import {useStore} from "../../app/store/store";
 import MasterForm from "./form/MasterForm";
 
@@ -21,7 +21,10 @@ export default observer(function DashboardMasters() {
                     <Card.Group doubling itemsPerRow={4}>
                         {masters.map(master => (
                             <Card key={master.id}>
-                                <Card.Header>{master.displayName}</Card.Header>
+                                <Card.Content>
+                                    <Card.Header as={"h2"} color={"teal"} textAlign={"center"}>{master.displayName}</Card.Header>
+                                    <Image src={master.image || "/assets/service.png"} />
+                                </Card.Content>
                                 {/*<Button size={"small"} positive>Изменить</Button>*/}
                             </Card>
                         ))}
