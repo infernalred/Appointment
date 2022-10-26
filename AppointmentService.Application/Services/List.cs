@@ -28,9 +28,10 @@ public class List
         public async Task<OperationResult<List<ServiceDto>>> Handle(Query request, CancellationToken cancellationToken)
         {
             var services = await _context.Services
+                .Where(x => x.IsEnabled)
                 .Include(x => x.Masters)
                 .ThenInclude(m => m.User)
-                .OrderBy(x => x.Id)
+                .OrderBy(x => x.CreatedAt)
                 .ProjectTo<ServiceDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

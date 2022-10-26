@@ -10,6 +10,7 @@ public class AppointmentModelConfiguration : IEntityTypeConfiguration<Appointmen
     {
         builder.HasKey(x => x.Id);
         
+        builder.Property(x => x.UserName).IsRequired().HasMaxLength(25);
         builder.Property(x => x.Phone).IsRequired().HasMaxLength(15);
     }
 }

@@ -30,6 +30,7 @@ public class Details
         public async Task<OperationResult<ServiceDto>> Handle(Query request, CancellationToken cancellationToken)
         {
             var service = await _context.Services
+                .Where(x => x.IsEnabled)
                 .Include(x => x.Masters)
                 .ThenInclude(m => m.User)
                 .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);

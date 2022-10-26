@@ -31,6 +31,7 @@ namespace AppointmentService.Persistence.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     DisplayName = table.Column<string>(type: "text", nullable: false),
                     Image = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -60,7 +61,8 @@ namespace AppointmentService.Persistence.Migrations
                     Description = table.Column<string>(type: "text", nullable: true),
                     DurationMinutes = table.Column<int>(type: "integer", nullable: false, defaultValue: 30),
                     Image = table.Column<string>(type: "text", nullable: true),
-                    IsEnabled = table.Column<bool>(type: "boolean", nullable: false)
+                    IsEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,6 +204,7 @@ namespace AppointmentService.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
                     Phone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     MasterId = table.Column<string>(type: "text", nullable: false),
                     Start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

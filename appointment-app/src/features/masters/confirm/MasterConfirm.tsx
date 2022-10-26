@@ -16,7 +16,8 @@ export default observer(function MasterConfirm() {
     const [appointment] = useState<AppointmentSlot>(new AppointmentSlot());
 
     const validationSchema = Yup.object({
-        phone: Yup.string().required("Номер телефона обязателен").length(11, "Введите корректный номер")
+        phone: Yup.string().required("Номер телефона обязателен").length(11, "Введите корректный номер"),
+        userName: Yup.string().required("Имя обязательно")
     })
 
     function time() {
@@ -110,9 +111,19 @@ export default observer(function MasterConfirm() {
                                 onSubmit={values => handleSubmit(values)}>
                                 {({handleSubmit, isValid, isSubmitting, dirty}) => (
                                     <Form className={"ui form"} onSubmit={handleSubmit} autoComplete={"off"}>
-                                        <label>Номер телефона</label>
-                                        <MyTextInput onKeyPress={isNumber} placeholder={"Введите номер телефона"}
-                                                     name={"phone"}/>
+                                        <MyTextInput
+                                            placeholder={"Введите ФИО"}
+                                            name={"userName"}
+                                            label="Как вас зовут?"
+                                            maxLength={25}
+                                        />
+                                        <MyTextInput
+                                            onKeyPress={isNumber}
+                                            placeholder={"Введите номер телефона"}
+                                            name={"phone"}
+                                            label="Ваш номер телефона"
+                                            maxLength={11}
+                                        />
                                         <Button disabled={isSubmitting || !dirty || !isValid}
                                                 loading={isSubmitting} floated={"right"} type="submit" color={"teal"}
                                                 content={"Забронировать"}/>
