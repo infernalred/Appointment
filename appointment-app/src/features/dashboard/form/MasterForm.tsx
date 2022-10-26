@@ -36,7 +36,7 @@ export default observer(function MasterForm() {
                 .catch(error => setErrors({error}))}>
             {({handleSubmit, isValid, dirty, isSubmitting, errors}) => (
                 <Form className={"ui form"} onSubmit={handleSubmit} autoComplete={"off"}>
-                    <Header as={"h2"} content={"Новая мастер"} color={"teal"} textAlign={"center"}></Header>
+                    <Header as={"h2"} content={"Новый мастер"} color={"teal"} textAlign={"center"}></Header>
                     <MyTextInput
                         maxLength={15}
                         name={"displayName"}

@@ -50,7 +50,7 @@ export default observer(function ServiceForm({id}: Props) {
             onSubmit={values => handleSubmit(values)}>
             {({handleSubmit, isValid, dirty, isSubmitting}) => (
                 <Form className={"ui form"} onSubmit={handleSubmit} autoComplete={"off"}>
-                    <Header as={"h2"} content={"Новая услуга"} color={"teal"} textAlign={"center"}></Header>
+                    <Header as={"h2"} content={service.id ? "Редактирование услуги" : "Новая услуга"} color={"teal"} textAlign={"center"}></Header>
                     <MyTextInput
                         maxLength={25}
                         name={"title"}
