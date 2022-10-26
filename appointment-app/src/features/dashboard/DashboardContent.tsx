@@ -1,5 +1,4 @@
 import React from "react";
-import {Account} from "../../app/models/Account";
 import {observer} from "mobx-react-lite";
 import DashboardMasters from "./DashboardMasters";
 import DashboardServices from "./DashboardServices";
@@ -7,11 +6,6 @@ import DashboardTimeSettings from "./DashboardTimeSettings";
 import DashboardMyAppointments from "./DashboardMyAppointments";
 import {Tab} from "semantic-ui-react";
 import {useStore} from "../../app/store/store";
-
-
-interface Props {
-    profile: Account;
-}
 
 export default observer(function DashboardContent() {
     const {userStore} = useStore();

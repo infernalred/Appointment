@@ -4,6 +4,7 @@ import agent from "../api/agent";
 import SlotModel from "../models/SlotModel";
 import {SlotParams} from "../models/SlotParams";
 import {AppointmentSlot} from "../models/AppointmentSlot";
+import {RegisterMaster} from "../models/RegisterMaster";
 
 export default class MasterStore {
     master: Master | undefined = undefined;
@@ -91,6 +92,11 @@ export default class MasterStore {
         } finally {
             this.setSlotLoading(false);
         }
+    }
+
+    createMaster = async (registerMaster: RegisterMaster) => {
+        await agent.Masters.create(registerMaster);
+        await this.loadMasters();
     }
 
     setSelected = (appointment: AppointmentSlot) => {

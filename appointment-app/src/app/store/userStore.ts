@@ -9,7 +9,7 @@ export default class UserStore {
     token = "";
     timer: NodeJS.Timeout | undefined = undefined;
     appLoaded = false;
-    activeTab = 0;
+    activeTab: 0 | string | number | undefined;
     roles = [] as string[];
 
     constructor() {
@@ -95,7 +95,7 @@ export default class UserStore {
         this.roles = [];
     }
 
-    setActiveTab = (activeTab: any) => {
+    setActiveTab = (activeTab: string | number | undefined) => {
         this.activeTab = activeTab;
     }
 

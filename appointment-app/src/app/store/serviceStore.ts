@@ -88,6 +88,12 @@ export default class ServiceStore {
         return Array.from(this.serviceRegistry.values());
     }
 
+    get servicesSet() {
+        return this.services.map(x => {
+            return {key: x.id, value: x.id, text: x.title}
+        })
+    }
+
     private getService = (id: string) => {
         return this.serviceRegistry.get(id);
     }

@@ -4,6 +4,7 @@ import {Button, Grid, Form, Header, Segment, Label} from "semantic-ui-react";
 import {useStore} from "../../app/store/store";
 import {Formik, ErrorMessage} from "formik";
 import {useNavigate} from "react-router-dom";
+import * as Yup from "yup";
 
 export default observer(function AuthPage() {
     const {userStore} = useStore();
@@ -15,7 +16,12 @@ export default observer(function AuthPage() {
                 <Formik initialValues={{email: "", password: "", error: null}}
                         onSubmit={(values, {setErrors}) => userStore.login(values)
                             .then(() => navigate("/dashboard"))
-                            .catch(() => setErrors({error: "Неправильный логин или пароль"}))}>
+                            .catch(() => setErrors({error: "Неправильный логин или пароль"}))}
+                        validationSchema={Yup.object({
+                            email: Yup.string().required().email(),
+                            password: Yup.string().required()
+                        })}
+                >
                     {({handleSubmit, handleChange, isSubmitting, errors}) => (
                         <Form className="ui form" onSubmit={handleSubmit} autoComplete={"off"} size="large">
                             <Header as="h2" color="teal" textAlign="center">

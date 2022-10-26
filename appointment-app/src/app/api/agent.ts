@@ -9,6 +9,7 @@ import Master from "../models/Master";
 import {Service, ServiceFormValues} from "../models/Service";
 import {store} from "../store/store";
 import {toast} from "react-toastify";
+import {RegisterMaster} from "../models/RegisterMaster";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -24,19 +25,19 @@ axios.interceptors.response.use(async response => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { data, status, headers } = error.response!;
     switch (status) {
-        // case 400:
-        //     if (data.errors) {
-        //         const modalStateErrors = [];
-        //         for (const key in data.errors) {
-        //             if (data.errors[key]) {
-        //                 modalStateErrors.push(data.errors[key])
-        //             }
-        //         }
-        //         throw modalStateErrors.flat();
-        //     } else {
-        //         toast.error(data);
-        //     }
-        //     break;
+        case 400:
+            if ((data as any).errors) {
+                const modalStateErrors = [];
+                for (const key in (data as any).errors) {
+                    if ((data as any).errors[key]) {
+                        modalStateErrors.push((data as any).errors[key])
+                    }
+                }
+                throw modalStateErrors.flat();
+            } else {
+                toast.error(data as string);
+            }
+            break;
         case 401:
             if (status === 401 && headers["www-authenticate"]?.startsWith('Bearer error="invalid_token"')) {
                 store.userStore.logout();
@@ -79,6 +80,7 @@ const Masters = {
         `/masters/slots/${id}`, {
                 params: slotParams,
             }).then(responseBody),
+    create: (registerMaster: RegisterMaster) => requests.post<void>("/users/master", registerMaster),
 };
 
 const Appointments = {
