@@ -87,6 +87,8 @@ public class UsersController : ControllerBase
 
             if (!result.Succeeded) return BadRequest("Возникла проблема при создании мастера");
 
+            await _userManager.AddToRoleAsync(user, Roles.Master);
+
             await _context.Masters.AddAsync(new Master {User = user, Service = service});
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
