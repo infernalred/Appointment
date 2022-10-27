@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using AppointmentService.Application.Appointments;
 using AppointmentService.Application.Helpers;
+using AppointmentService.Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,5 +33,13 @@ public class AppointmentsController : BaseApiController
     public async Task<ActionResult<OperationResult<AppointmentDto>>> GetAppointment(Guid id)
     {
         return Ok(await Mediator.Send(new Details.Query {Id = id}));
+    }
+
+    [Authorize(Roles = $"{Roles.Master}")]
+    [HttpGet]
+    [ProducesResponseType(typeof(OperationResult<List<AppointmentDto>>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<OperationResult<List<AppointmentDto>>>> GetMyAppointmentsByDate()
+    {
+        return Ok(await Mediator.Send(new MyAppointmentsByDate.Query()));
     }
 }

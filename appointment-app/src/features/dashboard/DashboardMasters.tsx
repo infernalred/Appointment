@@ -23,7 +23,7 @@ export default observer(function DashboardMasters() {
                             <Card key={master.id}>
                                 <Card.Content>
                                     <Card.Header as={"h2"} color={"teal"} textAlign={"center"}>{master.displayName}</Card.Header>
-                                    <Image src={master.image || "/assets/service.png"} />
+                                    <Image src={master.image || "/assets/user.png"} />
                                 </Card.Content>
                                 {/*<Button size={"small"} positive>Изменить</Button>*/}
                             </Card>

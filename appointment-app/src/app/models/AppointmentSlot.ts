@@ -1,5 +1,6 @@
 export class AppointmentSlot {
   id = "";
+  userName = "";
   phone = "";
   masterId = "";
   start: Date = new Date();
@@ -8,6 +9,7 @@ export class AppointmentSlot {
   constructor(slot?: AppointmentSlot) {
     if (slot) {
       this.id = slot.id;
+      this.userName = slot.userName;
       this.phone = slot.phone;
       this.masterId = slot.masterId;
       this.start = slot.start;

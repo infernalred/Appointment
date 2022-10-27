@@ -18,8 +18,8 @@ export default observer(function DashboardContent() {
             panes.push({menuItem: "Сервисы", render: () => <DashboardServices />});
         }
         if (isMaster) {
-            panes.push({menuItem: "Настройки", render: () => <DashboardTimeSettings />});
             panes.push({menuItem: "Брони", render: () => <DashboardMyAppointments />});
+            panes.push({menuItem: "Настройки", render: () => <DashboardTimeSettings />});
         }
         return panes;
     }

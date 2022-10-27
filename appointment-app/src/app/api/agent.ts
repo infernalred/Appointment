@@ -1,5 +1,5 @@
 import axios, {AxiosError, AxiosResponse} from "axios";
-import {OperationResult} from "../models/OperationResult";
+import OperationResult from "../models/OperationResult";
 import {AppointmentSlot} from "../models/AppointmentSlot";
 import {LoginModel} from "../models/LoginModel";
 import {Account} from "../models/Account";
@@ -86,6 +86,7 @@ const Masters = {
 const Appointments = {
     create: (appointment: AppointmentSlot) =>
         requests.post<OperationResult<unknown>>("/appointments", appointment),
+    myAppointments: () => requests.get<OperationResult<AppointmentSlot[]>>("/appointments")
 };
 
 const Users = {
