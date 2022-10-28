@@ -104,8 +104,6 @@ public static class Seed
 
             var step = master1.Service.DurationMinutes;
 
-            var id = 1;
-
             var slots = new List<TimeSlot>();
 
             for (var i = 0; i < 4; i++)
@@ -114,7 +112,7 @@ public static class Seed
                 {
                     var slot = new TimeSlot
                     {
-                        Id = id++, Master = master1,
+                        Id = Guid.NewGuid(), Master = master1,
                         DayOfWeek = dt.DayOfWeek,
                         Start = dt.AddMinutes(j),
                         End = dt.AddMinutes(j + step)

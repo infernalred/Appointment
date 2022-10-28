@@ -13,7 +13,7 @@ export default class MasterStore {
     slotParams = new SlotParams();
     masterSlotsRegistry = new Map<number, SlotModel[]>();
     slotLoading = false;
-    days = [] as Date[];
+    days: Date[] = [] ;
     selected: AppointmentSlot | undefined = undefined;
 
     constructor() {

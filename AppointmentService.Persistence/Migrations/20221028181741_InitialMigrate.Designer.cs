@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AppointmentService.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221026170326_InitialMigrate")]
+    [Migration("20221028181741_InitialMigrate")]
     partial class InitialMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -181,11 +181,9 @@ namespace AppointmentService.Persistence.Migrations
 
             modelBuilder.Entity("AppointmentService.Domain.TimeSlot", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<int>("DayOfWeek")
                         .HasColumnType("integer");

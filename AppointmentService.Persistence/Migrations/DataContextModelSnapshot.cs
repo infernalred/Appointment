@@ -179,11 +179,9 @@ namespace AppointmentService.Persistence.Migrations
 
             modelBuilder.Entity("AppointmentService.Domain.TimeSlot", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<int>("DayOfWeek")
                         .HasColumnType("integer");

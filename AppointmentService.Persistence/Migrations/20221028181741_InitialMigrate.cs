@@ -225,8 +225,7 @@ namespace AppointmentService.Persistence.Migrations
                 name: "TimeSlots",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     MasterId = table.Column<string>(type: "text", nullable: false),
                     DayOfWeek = table.Column<int>(type: "integer", nullable: false),
                     Start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

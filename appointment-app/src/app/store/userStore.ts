@@ -10,7 +10,7 @@ export default class UserStore {
     timer: NodeJS.Timeout | undefined = undefined;
     appLoaded = false;
     activeTab: 0 | string | number | undefined;
-    roles = [] as string[];
+    roles: string[] = [];
 
     constructor() {
         makeAutoObservable(this)
