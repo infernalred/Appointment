@@ -5,6 +5,7 @@ using AppointmentService.API.Services;
 using AppointmentService.Domain;
 using AppointmentService.Persistence.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,7 +26,7 @@ public static class SecurityServiceExtensions
             .AddEntityFrameworkStores<DataContext>()
             .AddSignInManager<SignInManager<AppUser>>()
             .AddDefaultTokenProviders();
-            
+
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opt =>
@@ -39,9 +40,15 @@ public static class SecurityServiceExtensions
                     ValidateLifetime = true
                 };
             });
+
+        services.AddAuthorization(opt =>
+        {
+            opt.AddPolicy("IsSlotOwner", policy => { policy.Requirements.Add(new IsSlotOwnerRequirement()); });
+        });
+        services.AddTransient<IAuthorizationHandler, IsSlotOwnerRequirementHandler>();
         services.AddScoped<IUserAccessor, UserAccessor>();
         services.AddScoped<ITokenService, TokenService>();
-        
+
         return services;
     }
 }

@@ -31,7 +31,7 @@ export default observer(function MasterConfirm() {
             hour: "2-digit",
             minute: "2-digit",
         });
-        const endTime = selected.start.toLocaleTimeString([], {
+        const endTime = selected.end.toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
         });

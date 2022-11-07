@@ -14,6 +14,7 @@ public class AppointmentsController : BaseApiController
     [HttpPost]
     [ProducesResponseType(typeof(OperationResult<Unit>), (int)HttpStatusCode.Conflict)]
     [ProducesResponseType(typeof(OperationResult<AppointmentDto>), (int)HttpStatusCode.Created)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<OperationResult<AppointmentDto>>> CreateAppointment(AppointmentDto appointment)
     {
         var result = await Mediator.Send(new Create.Command {Appointment = appointment});
@@ -38,6 +39,8 @@ public class AppointmentsController : BaseApiController
     [Authorize(Roles = $"{Roles.Master}")]
     [HttpGet]
     [ProducesResponseType(typeof(OperationResult<List<AppointmentDto>>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     public async Task<ActionResult<OperationResult<List<AppointmentDto>>>> GetMyAppointmentsByDate()
     {
         return Ok(await Mediator.Send(new MyAppointmentsByDate.Query()));

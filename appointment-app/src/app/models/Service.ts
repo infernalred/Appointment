@@ -31,5 +31,4 @@ export class ServiceFormValues {
       this.durationMinutes = service.durationMinutes;
     }
   }
-
 }

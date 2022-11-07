@@ -10,6 +10,7 @@ import {Service, ServiceFormValues} from "../models/Service";
 import {store} from "../store/store";
 import {toast} from "react-toastify";
 import {RegisterMaster} from "../models/RegisterMaster";
+import { TimeSlot, TimeSlotFormValues } from "../models/TimeSlot";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -69,8 +70,8 @@ const requests = {
 const Services = {
     list: () => requests.get<OperationResult<Service[]>>("/services"),
     details: (id: string) => requests.get<OperationResult<Service>>(`/services/${id}`),
-    create: (service: ServiceFormValues) => requests.post("/services", service),
-    update: (service: ServiceFormValues) => requests.put(`/services/${service.id}`, service)
+    create: (service: ServiceFormValues) => requests.post<void>("/services", service),
+    update: (service: ServiceFormValues) => requests.put<void>(`/services/${service.id}`, service)
 };
 
 const Masters = {
@@ -89,6 +90,14 @@ const Appointments = {
     myAppointments: () => requests.get<OperationResult<AppointmentSlot[]>>("/appointments")
 };
 
+const TimeSlots = {
+    list: () => requests.get<OperationResult<TimeSlot[]>>("/timeslots"),
+    details: (id: string) => requests.get<OperationResult<TimeSlot>>(`/timeslots/${id}`),
+    create: (slot: TimeSlotFormValues) => requests.post<OperationResult<unknown>>("/timeslots", slot),
+    update: (slot: TimeSlotFormValues) => requests.put<OperationResult<unknown>>(`/timeslots/${slot.id}`, slot),
+    delete: (id: string) => requests.del<void>(`/timeslots/${id}`)
+}
+
 const Users = {
     login: (login: LoginModel) => requests.post<Account>("/users/login", login),
 };
@@ -98,6 +107,7 @@ const agent = {
     Masters,
     Appointments,
     Users,
+    TimeSlots
 };
 
 export default agent;

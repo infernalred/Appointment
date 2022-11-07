@@ -68,19 +68,27 @@ public class FreeSlots
 
                 foreach (var slot in slots)
                 {
+                    var minutes = (slot.End - slot.Start).TotalMinutes;
+
                     var startDateTime = new DateTime(start.Year, start.Month, start.Day, slot.Start.Hour,
                         slot.Start.Minute, 0, start.Kind);
 
-                    var newSlot = new Slot
+                    while (minutes >= master.Service.DurationMinutes)
                     {
-                        Id = Guid.NewGuid(),
-                        Start = startDateTime,
-                        End = startDateTime.AddMinutes(master.Service.DurationMinutes)
-                    };
+                        var newSlot = new Slot
+                        {
+                            Id = Guid.NewGuid(),
+                            Start = startDateTime,
+                            End = startDateTime.AddMinutes(master.Service.DurationMinutes)
+                        };
 
-                    if (newSlot.Start > DateTime.UtcNow && !appointments.Any(x => x.Start < newSlot.End && x.End > newSlot.Start))
-                    {
-                        result.Add(newSlot);
+                        if (newSlot.Start > DateTime.UtcNow && !appointments.Any(x => x.Start < newSlot.End && x.End > newSlot.Start))
+                        {
+                            result.Add(newSlot);
+                        }
+
+                        startDateTime = startDateTime.AddMinutes(master.Service.DurationMinutes);
+                        minutes -= master.Service.DurationMinutes;
                     }
                 }
 

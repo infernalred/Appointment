@@ -2,8 +2,9 @@ import {createContext, useContext} from "react";
 import ServiceStore from "./serviceStore";
 import MasterStore from "./masterStore";
 import UserStore from "./userStore";
-import ModalStore from "./modalStore";
 import AppointmentStore from "./appointmentStore";
+import ModalStore from "./modalStore";
+import TimeSlotStore from "./timeSlotStore";
 
 interface Store {
     serviceStore: ServiceStore,
@@ -11,6 +12,7 @@ interface Store {
     userStore: UserStore,
     modalStore: ModalStore,
     appointmentStore: AppointmentStore,
+    timeSlotStore: TimeSlotStore,
 }
 
 export const store: Store = {
@@ -18,7 +20,8 @@ export const store: Store = {
     masterStore: new MasterStore(),
     userStore: new UserStore(),
     modalStore: new ModalStore(),
-    appointmentStore: new AppointmentStore()
+    appointmentStore: new AppointmentStore(),
+    timeSlotStore: new TimeSlotStore()
 }
 
 export const StoreContext = createContext(store);

@@ -29,6 +29,9 @@ public class ServicesController : BaseApiController
     [Authorize(Roles = $"{Roles.Admin},{Roles.Manager}")]
     [HttpPost]
     [ProducesResponseType(typeof(OperationResult<ServiceDto>), (int)HttpStatusCode.Created)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<ServiceDto>> CreateService(ServiceDto service)
     {
         await Mediator.Send(new Create.Command {Service = service});
@@ -39,7 +42,10 @@ public class ServicesController : BaseApiController
     [Authorize(Roles = $"{Roles.Admin},{Roles.Manager}")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(OperationResult<Unit>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<OperationResult<Unit>>> CreateService(Guid id, ServiceDto service)
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult<OperationResult<Unit>>> EditService(Guid id, ServiceDto service)
     {
         service.Id = id;
         var result = await Mediator.Send(new Edit.Command {Service = service});

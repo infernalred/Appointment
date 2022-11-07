@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx"
 import {AppointmentSlot} from "../models/AppointmentSlot";
 import agent from "../api/agent";
+
 export default class AppointmentStore {
     appointments: AppointmentSlot[] = []; 
     loading = false;
