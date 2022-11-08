@@ -47,14 +47,15 @@ public class CreateTimeSlotTests
         var logger = new Mock<ILogger<Create.Handler>>();
         var context = await SetupDbContext.Generate();
 
+        var dt = new DateTime(2022, 9, 12, 8, 30, 0, DateTimeKind.Utc);
         var command = new Create.Command
         {
             TimeSlot = new TimeSlotDto
             {
                 Id = Guid.NewGuid(),
-                DayOfWeek = DayOfWeek.Friday,
-                Start = new DateTime(2022, 9, 12, 8, 30, 0, DateTimeKind.Utc),
-                End = DateTime.UtcNow.AddMinutes(60)
+                DayOfWeek = dt.DayOfWeek,
+                Start = dt,
+                End = dt.AddMinutes(60)
             }
         };
         
@@ -84,7 +85,7 @@ public class CreateTimeSlotTests
             TimeSlot = new TimeSlotDto
             {
                 Id = Guid.NewGuid(),
-                DayOfWeek = DayOfWeek.Friday,
+                DayOfWeek = DayOfWeek.Monday,
                 Start = new DateTime(2022, 9, 12, 8, 30, 0, DateTimeKind.Utc),
                 End = new DateTime(2022, 9, 12, 9, 30, 0, DateTimeKind.Utc)
             }
@@ -116,7 +117,7 @@ public class CreateTimeSlotTests
             TimeSlot = new TimeSlotDto
             {
                 Id = Guid.NewGuid(),
-                DayOfWeek = DayOfWeek.Friday,
+                DayOfWeek = DayOfWeek.Monday,
                 Start = new DateTime(2022, 9, 12, 8, 45, 0, DateTimeKind.Utc),
                 End = new DateTime(2022, 9, 12, 9, 15, 0, DateTimeKind.Utc)
             }
@@ -143,14 +144,15 @@ public class CreateTimeSlotTests
         var logger = new Mock<ILogger<Create.Handler>>();
         var context = await SetupDbContext.Generate();
 
+        var dt = new DateTime(2022, 9, 12, 5, 30, 0, DateTimeKind.Utc);
         var command = new Create.Command
         {
             TimeSlot = new TimeSlotDto
             {
                 Id = Guid.NewGuid(),
-                DayOfWeek = DayOfWeek.Monday,
-                Start = new DateTime(2022, 9, 12, 5, 30, 0, DateTimeKind.Utc),
-                End = DateTime.UtcNow.AddMinutes(60)
+                DayOfWeek = dt.DayOfWeek,
+                Start = dt,
+                End = dt.AddMinutes(60)
             }
         };
         
@@ -176,14 +178,15 @@ public class CreateTimeSlotTests
         var logger = new Mock<ILogger<Create.Handler>>();
         var context = await SetupDbContext.Generate();
 
+        var dt = new DateTime(2022, 9, 12, 5, 0, 0, DateTimeKind.Utc);
         var command = new Create.Command
         {
             TimeSlot = new TimeSlotDto
             {
                 Id = Guid.NewGuid(),
-                DayOfWeek = DayOfWeek.Monday,
-                Start = new DateTime(2022, 9, 12, 5, 0, 0, DateTimeKind.Utc),
-                End = DateTime.UtcNow.AddMinutes(200)
+                DayOfWeek = dt.DayOfWeek,
+                Start = dt,
+                End = dt.AddMinutes(200)
             }
         };
         
@@ -209,14 +212,15 @@ public class CreateTimeSlotTests
         var logger = new Mock<ILogger<Create.Handler>>();
         var context = await SetupDbContext.Generate();
 
+        var dt = new DateTime(2022, 9, 12, 8, 0, 0, DateTimeKind.Utc);
         var command = new Create.Command
         {
             TimeSlot = new TimeSlotDto
             {
                 Id = Guid.NewGuid(),
-                DayOfWeek = DayOfWeek.Monday,
-                Start = new DateTime(2022, 9, 12, 8, 0, 0, DateTimeKind.Utc),
-                End = DateTime.UtcNow.AddMinutes(90)
+                DayOfWeek = dt.DayOfWeek,
+                Start = dt,
+                End = dt.AddMinutes(90)
             }
         };
         
@@ -242,14 +246,15 @@ public class CreateTimeSlotTests
         var logger = new Mock<ILogger<Create.Handler>>();
         var context = await SetupDbContext.Generate();
 
+        var dt = new DateTime(2022, 9, 12, 4, 0, 0, DateTimeKind.Utc);
         var command = new Create.Command
         {
             TimeSlot = new TimeSlotDto
             {
                 Id = Guid.NewGuid(),
-                DayOfWeek = DayOfWeek.Monday,
-                Start = new DateTime(2022, 9, 12, 4, 0, 0, DateTimeKind.Utc),
-                End = DateTime.UtcNow.AddMinutes(180)
+                DayOfWeek = dt.DayOfWeek,
+                Start = dt,
+                End = dt.AddMinutes(180)
             }
         };
         
@@ -261,6 +266,38 @@ public class CreateTimeSlotTests
         
         Assert.False(actual.IsSuccess);
         Assert.Equal("Время не должно пересекаться", actual.Error);
+        mockUserAccessor.Verify(x => x.GetUsername());
+        mockUserAccessor.VerifyNoOtherCalls();
+        mockUserAccessor.VerifyAll();
+        logger.VerifyNoOtherCalls();
+        logger.VerifyAll();
+    }
+    
+    [Fact]
+    public async Task CreateSlot_Exception_NotExistMaster()
+    {
+        var mockUserAccessor = new Mock<IUserAccessor>();
+        var logger = new Mock<ILogger<Create.Handler>>();
+        var context = await SetupDbContext.Generate();
+
+        var dt = new DateTime(2022, 9, 12, 4, 0, 0, DateTimeKind.Utc);
+        var command = new Create.Command
+        {
+            TimeSlot = new TimeSlotDto
+            {
+                Id = Guid.NewGuid(),
+                DayOfWeek = dt.DayOfWeek,
+                Start = dt,
+                End = dt.AddMinutes(180)
+            }
+        };
+        
+        mockUserAccessor.Setup(x => x.GetUsername()).Returns("master99");
+
+        var handler = new Create.Handler(logger.Object, context, mockUserAccessor.Object);
+
+        await Assert.ThrowsAnyAsync<InvalidOperationException>(async () =>
+            await handler.Handle(command, CancellationToken.None));
         mockUserAccessor.Verify(x => x.GetUsername());
         mockUserAccessor.VerifyNoOtherCalls();
         mockUserAccessor.VerifyAll();
