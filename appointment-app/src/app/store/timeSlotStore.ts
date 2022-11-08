@@ -80,7 +80,10 @@ export default class TimeSlotStore {
 
     updateSlot = async (slot: TimeSlotFormValues) => {
         try {
-            await agent.TimeSlots.update(slot);
+            const result = await agent.TimeSlots.update(slot);
+            if (result.error) {
+                toast.error(result.error);
+            }
         } catch (e) {
             console.log(e);
         }

@@ -7,7 +7,7 @@ namespace AppointmentService.Persistence;
 
 public static class Seed
 {
-    public static async Task SeedData(DataContext context, UserManager<AppUser> userManager,
+    public static async Task SeedUser(DataContext context, UserManager<AppUser> userManager,
         RoleManager<IdentityRole> roleManager)
     {
         const string adminRole = "Admin";
@@ -28,9 +28,9 @@ public static class Seed
             var admin = new AppUser {DisplayName = "Admin", UserName = "admin", Email = "admin@test.com"};
             var manager1 = new AppUser {DisplayName = "Manager1", UserName = "manager1", Email = "manager1@test.com"};
 
-            var master1 = new AppUser {DisplayName = "Master1", UserName = "master1", Email = "master1@test.com"};
-            var master2 = new AppUser {DisplayName = "Master2", UserName = "master2", Email = "master2@test.com"};
-            var master3 = new AppUser {DisplayName = "Master3", UserName = "master3", Email = "master3@test.com"};
+            var master1 = new AppUser {Id = "745bf0a5-9e0d-433d-afb4-a15b8e630d19", DisplayName = "Master1", UserName = "master1", Email = "master1@test.com"};
+            var master2 = new AppUser {Id = "8b8eb53e-59ab-4a9b-9ae7-2fca51dc7494", DisplayName = "Master2", UserName = "master2", Email = "master2@test.com"};
+            var master3 = new AppUser {Id = "5d15e1d8-6fb9-48a8-b941-7faf4815f24c", DisplayName = "Master3", UserName = "master3", Email = "master3@test.com"};
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");
             await userManager.CreateAsync(manager1, "Pa$$w0rd");
@@ -49,25 +49,30 @@ public static class Seed
 
             await context.SaveChangesAsync();
         }
+    }
 
-
+    public static async Task SeedData(DataContext context)
+    {
         if (!context.Services.Any())
         {
             var service1 = new Service
             {
-                Id = Guid.Parse("cc1149bc-3e38-4e11-8496-0db1d683ae22"), Title = "Стрижка", Description = "Профессиональная стрижка", DurationMinutes = 30,
+                Id = Guid.Parse("cc1149bc-3e38-4e11-8496-0db1d683ae22"), Title = "Стрижка",
+                Description = "Профессиональная стрижка", DurationMinutes = 30,
                 IsEnabled = true
             };
 
             var service2 = new Service
             {
-                Id = Guid.Parse("a92c56ee-19e3-471f-9c70-bad22f6fcb1f"), Title = "Маникюр", Description = "Профессиональный маникюр", DurationMinutes = 60,
+                Id = Guid.Parse("a92c56ee-19e3-471f-9c70-bad22f6fcb1f"), Title = "Маникюр",
+                Description = "Профессиональный маникюр", DurationMinutes = 60,
                 IsEnabled = true
             };
 
             var service3 = new Service
             {
-                Id = Guid.Parse("b6db5450-27bf-48ad-9bac-da3b911d6ce4"), Title = "Чистка лица", Description = "Профессиональная чистка", DurationMinutes = 90,
+                Id = Guid.Parse("b6db5450-27bf-48ad-9bac-da3b911d6ce4"), Title = "Чистка лица",
+                Description = "Профессиональная чистка", DurationMinutes = 90,
                 IsEnabled = true
             };
 
@@ -77,17 +82,16 @@ public static class Seed
 
         if (!context.Masters.Any())
         {
-            var user1 = await userManager.Users.AsTracking().FirstAsync(x => x.UserName == "master1");
-            var user2 = await userManager.Users.AsTracking().FirstAsync(x => x.UserName == "master2");
-            var user3 = await userManager.Users.AsTracking().FirstAsync(x => x.UserName == "master3");
+            var service1 = await context.Services.AsTracking()
+                .FirstAsync(x => x.Id == Guid.Parse("cc1149bc-3e38-4e11-8496-0db1d683ae22"));
+            var service2 = await context.Services.AsTracking()
+                .FirstAsync(x => x.Id == Guid.Parse("a92c56ee-19e3-471f-9c70-bad22f6fcb1f"));
+            var service3 = await context.Services.AsTracking()
+                .FirstAsync(x => x.Id == Guid.Parse("b6db5450-27bf-48ad-9bac-da3b911d6ce4"));
 
-            var service1 = await context.Services.AsTracking().FirstAsync(x => x.Id == Guid.Parse("cc1149bc-3e38-4e11-8496-0db1d683ae22"));
-            var service2 = await context.Services.AsTracking().FirstAsync(x => x.Id == Guid.Parse("a92c56ee-19e3-471f-9c70-bad22f6fcb1f"));
-            var service3 = await context.Services.AsTracking().FirstAsync(x => x.Id == Guid.Parse("b6db5450-27bf-48ad-9bac-da3b911d6ce4"));
-
-            var master1 = new Master {User = user1, Service = service1};
-            var master2 = new Master {User = user2, Service = service2};
-            var master3 = new Master {User = user3, Service = service3};
+            var master1 = new Master {Id = "745bf0a5-9e0d-433d-afb4-a15b8e630d19", Service = service1};
+            var master2 = new Master {Id = "8b8eb53e-59ab-4a9b-9ae7-2fca51dc7494", Service = service2};
+            var master3 = new Master {Id = "5d15e1d8-6fb9-48a8-b941-7faf4815f24c", Service = service3};
 
             await context.Masters.AddRangeAsync(master1, master2, master3);
             await context.SaveChangesAsync();
@@ -102,24 +106,27 @@ public static class Seed
 
             var dt = new DateTime(2022, 9, 12, 5, 30, 0, DateTimeKind.Utc);
 
-            var step = master1.Service.DurationMinutes;
-
             var slots = new List<TimeSlot>();
 
             for (var i = 0; i < 4; i++)
             {
-                for (var j = 0; j < 12 * step; j += step)
+                var slot1 = new TimeSlot
                 {
-                    var slot = new TimeSlot
-                    {
-                        Id = Guid.NewGuid(), Master = master1,
-                        DayOfWeek = dt.DayOfWeek,
-                        Start = dt.AddMinutes(j),
-                        End = dt.AddMinutes(j + step)
-                    };
+                    Id = Guid.NewGuid(), Master = master1,
+                    DayOfWeek = dt.DayOfWeek,
+                    Start = dt,
+                    End = dt.AddMinutes(180)
+                };
+                var slot2 = new TimeSlot
+                {
+                    Id = Guid.NewGuid(), Master = master1,
+                    DayOfWeek = dt.DayOfWeek,
+                    Start = dt.AddMinutes(240),
+                    End = dt.AddMinutes(420)
+                };
 
-                    slots.Add(slot);
-                }
+                slots.Add(slot1);
+                slots.Add(slot2);
 
                 dt = dt.AddDays(1);
             }

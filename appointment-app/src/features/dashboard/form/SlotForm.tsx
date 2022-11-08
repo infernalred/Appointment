@@ -98,10 +98,8 @@ export default observer(function SlotForm({ id, day }: Props) {
         id: uuid(),
         dayOfWeek: day,
       };
-      console.log(newSlot)
       createSlot(newSlot).then(() => modalStore.closeModal());
     } else {
-        console.log(slot)
       updateSlot(slot).then(() => modalStore.closeModal());
     }
   }
