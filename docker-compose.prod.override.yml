@@ -17,7 +17,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
 
   appointmentservice.api:
-    image: appointmentservice.api
+    image: infernalred/appointmentapi
     build: .
     container_name: appointmentservice.api
     environment:
@@ -35,7 +35,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
   
   appointmentservice.proxy:
-    image: appointmentservice.proxy
+    image: infernalred/appointmentsproxy
     build: .
     container_name: appointmentservice.proxy
     restart: always
