@@ -17,6 +17,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
 
   appointmentservice.api:
+    image: appointmentservice.api
+    build: .
     container_name: appointmentservice.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -33,6 +35,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
   
   appointmentservice.proxy:
+    image: appointmentservice.proxy
+    build: .
     container_name: appointmentservice.proxy
     restart: always
     depends_on:
