@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   appointmentservice.db:
+    image: postgres
     container_name: appointmentservice.db
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
