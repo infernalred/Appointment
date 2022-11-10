@@ -27,7 +27,7 @@ public static class SecurityServiceExtensions
             .AddSignInManager<SignInManager<AppUser>>()
             .AddDefaultTokenProviders();
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"] ?? throw new InvalidOperationException()));
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opt =>
             {

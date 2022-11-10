@@ -19,13 +19,13 @@ public class TokenService : ITokenService
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.Name, user.UserName ?? throw new InvalidOperationException()),
             new(ClaimTypes.NameIdentifier, user.Id),
-            new(ClaimTypes.Email, user.Email)
+            new(ClaimTypes.Email, user.Email ?? throw new InvalidOperationException())
         };
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"] ?? throw new InvalidOperationException()));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
         var tokenDescriptor = new SecurityTokenDescriptor
