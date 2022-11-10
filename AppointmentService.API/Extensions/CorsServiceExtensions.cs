@@ -28,6 +28,7 @@ public static class CorsServiceExtensions
                         }
                     }
                 }
+                builder.WithExposedHeaders("WWW-Authenticate");
             });
         });
         

@@ -22,6 +22,7 @@ export default observer(function ServiceForm({ id }: Props) {
 
   const validationSchema = Yup.object({
     title: Yup.string()
+      .trim()
       .required("Название обязательно")
       .max(25, "Длина превышена"),
     durationMinutes: Yup.number()

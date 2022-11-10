@@ -5,6 +5,7 @@ import UserStore from "./userStore";
 import AppointmentStore from "./appointmentStore";
 import ModalStore from "./modalStore";
 import TimeSlotStore from "./timeSlotStore";
+import CommonStore from "./commonStore";
 
 interface Store {
     serviceStore: ServiceStore,
@@ -13,6 +14,7 @@ interface Store {
     modalStore: ModalStore,
     appointmentStore: AppointmentStore,
     timeSlotStore: TimeSlotStore,
+    commonStore: CommonStore,
 }
 
 export const store: Store = {
@@ -21,7 +23,8 @@ export const store: Store = {
     userStore: new UserStore(),
     modalStore: new ModalStore(),
     appointmentStore: new AppointmentStore(),
-    timeSlotStore: new TimeSlotStore()
+    timeSlotStore: new TimeSlotStore(),
+    commonStore: new CommonStore()
 }
 
 export const StoreContext = createContext(store);

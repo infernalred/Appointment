@@ -13,10 +13,10 @@ export default observer(function MasterForm() {
   const { serviceRegistry, loadServices, servicesSet, loading } = serviceStore;
 
   const validationSchema = Yup.object({
-    displayName: Yup.string().required(),
+    displayName: Yup.string().trim().required(),
     email: Yup.string().required().email(),
-    password: Yup.string().required(),
-    userName: Yup.string().required(),
+    password: Yup.string().trim().required(),
+    userName: Yup.string().trim().required(),
     serviceId: Yup.string().required(),
   });
 

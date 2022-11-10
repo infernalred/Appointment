@@ -15,6 +15,8 @@ import DashboardPage from "../../features/dashboard/DashboardPage";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modal/ModalContainer";
 import { ToastContainer } from "react-toastify";
+import ServerError from "../../features/errors/ServerError";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
     const {userStore} = useStore();
@@ -33,6 +35,7 @@ function App() {
             <Container fluid style={{marginTop: "2em"}}>
                 <Navbar/>
                 <Routes>
+                    <Route path="/dashboard" element={<PrivateRoute><DashboardPage/></PrivateRoute>}/>
                     <Route path="/" element={<Navigate to="/services" replace/>}/>
                     <Route path="/services" element={<ServiceList/>}/>
                     <Route path="/services/:id" element={<ServiceDetails/>} />
@@ -40,7 +43,7 @@ function App() {
                     <Route path="/masters/:id" element={<MasterDetails/>}/>
                     <Route path="/masters/:id/confirm" element={<MasterConfirm/>}/>
                     <Route path="/auth" element={<AuthPage/>}/>
-                    <Route path="/dashboard" element={<DashboardPage/>}/>
+                    <Route path="/server-error" element={<ServerError/>} />
                 </Routes>
                 <footer style={{textAlign: 'center'}}>Appointment ©2022 Created by infernalred</footer>
             </Container>
