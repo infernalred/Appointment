@@ -11,6 +11,8 @@ import {store} from "../store/store";
 import {toast} from "react-toastify";
 import {RegisterMaster} from "../models/RegisterMaster";
 import { TimeSlot, TimeSlotFormValues } from "../models/TimeSlot";
+import { ServerError } from "../models/ServerError";
+import { useNavigate } from "react-router-dom";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -49,10 +51,12 @@ axios.interceptors.response.use(async response => {
         //     history.push('/not-found');
         //     break;
         case 409:
-            toast.error((data as OperationResult<never>).error || "Произошла ошибка")
+            toast.error((data as OperationResult<never>).error || "Произошла ошибка");
+            break;
         // case 500:
-        //     store.commonStore.setServerError(data);
-        //     history.push('/server-error')
+        //     store.commonStore.setServerError(data as ServerError);
+        //     //history.push('/server-error')
+        //     navigate("/server-error");
         //     break;
     }
     return Promise.reject(error);

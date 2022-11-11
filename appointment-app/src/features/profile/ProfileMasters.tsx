@@ -4,7 +4,7 @@ import {Button, Card, Grid, Image, Tab} from "semantic-ui-react";
 import {useStore} from "../../app/store/store";
 import MasterForm from "./form/MasterForm";
 
-export default observer(function DashboardMasters() {
+export default observer(function ProfileMasters() {
     const {masterStore, modalStore} = useStore();
     const {masterRegistry, masters, loadMasters} = masterStore;
 

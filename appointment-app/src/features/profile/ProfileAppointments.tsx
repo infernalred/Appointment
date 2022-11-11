@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { Table } from "semantic-ui-react";
 import { useStore } from "../../app/store/store";
 
-export default observer(function DashboardMyAppointments() {
+export default observer(function ProfileAppointments() {
   const { appointmentStore } = useStore();
   const { appointments, loadMyAppointmentsByDate } = appointmentStore;
 

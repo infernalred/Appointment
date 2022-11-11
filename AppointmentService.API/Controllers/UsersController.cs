@@ -108,7 +108,8 @@ public class UsersController : ControllerBase
         {
             DisplayName = user.DisplayName,
             Token = _tokenService.CreateToken(user, roles),
-            UserName = user.UserName
+            UserName = user.UserName,
+            Image = user.Image
         };
     }
 }

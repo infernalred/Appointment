@@ -7,7 +7,7 @@ interface Props {
     profile: Account;
 }
 
-export default observer(function DashboardPage({profile}: Props) {
+export default observer(function ProfilePage({profile}: Props) {
     return (
         <Segment>
             <Grid>

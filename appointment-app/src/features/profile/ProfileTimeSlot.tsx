@@ -10,7 +10,7 @@ interface Props {
   day: number;
 }
 
-export default observer(function DashboardTimeSlot({ slots, day }: Props) {
+export default observer(function ProfileTimeSlot({ slots, day }: Props) {
   const { timeSlotStore, modalStore } = useStore();
   const { delSlot, loading, getDay } = timeSlotStore;
 

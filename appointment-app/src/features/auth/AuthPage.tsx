@@ -15,7 +15,7 @@ export default observer(function AuthPage() {
             <Grid.Column style={{maxWidth: 450}}>
                 <Formik initialValues={{email: "", password: "", error: null}}
                         onSubmit={(values, {setErrors}) => userStore.login(values)
-                            .then(() => navigate("/dashboard"))
+                            .then(() => navigate("/profile"))
                             .catch(() => setErrors({error: "Неправильный логин или пароль"}))}
                         validationSchema={Yup.object({
                             email: Yup.string().required().email(),

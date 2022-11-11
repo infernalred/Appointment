@@ -11,7 +11,7 @@ import MasterDetails from "../../features/masters/details/MasterDetails";
 import MasterConfirm from "../../features/masters/confirm/MasterConfirm";
 import AuthPage from "../../features/auth/AuthPage";
 import {useStore} from "../store/store";
-import DashboardPage from "../../features/dashboard/DashboardPage";
+import ProfilePage from "../../features/profile/ProfilePage";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modal/ModalContainer";
 import { ToastContainer } from "react-toastify";
@@ -35,7 +35,7 @@ function App() {
             <Container fluid style={{marginTop: "2em"}}>
                 <Navbar/>
                 <Routes>
-                    <Route path="/dashboard" element={<PrivateRoute><DashboardPage/></PrivateRoute>}/>
+                    <Route path="/profile" element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
                     <Route path="/" element={<Navigate to="/services" replace/>}/>
                     <Route path="/services" element={<ServiceList/>}/>
                     <Route path="/services/:id" element={<ServiceDetails/>} />

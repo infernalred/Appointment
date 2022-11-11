@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Button, List, Segment } from "semantic-ui-react";
 import { useStore } from "../../app/store/store";
-import DashboardTimeSlot from "./DashboardTimeSlot";
+import ProfileTimeSlot from "./ProfileTimeSlot";
 
-export default observer(function DashboardTimeSettings() {
+export default observer(function ProfileTimeSettings() {
   const { timeSlotStore } = useStore();
   const { loadMySlots, slots } = timeSlotStore;
   const [daysOfWeek] = useState<number[]>([1, 2, 3, 4, 5, 6, 0]);
@@ -23,7 +23,7 @@ export default observer(function DashboardTimeSettings() {
             key={day}
             style={{ verticalAlign: "top"}}
           >
-            <DashboardTimeSlot
+            <ProfileTimeSlot
               slots={slots.filter((x) => x.dayOfWeek === day)}
               day={day}
             />

@@ -4,7 +4,7 @@ import {Grid, Tab, Card, Image, Button} from "semantic-ui-react";
 import {useStore} from "../../app/store/store";
 import ServiceForm from "./form/ServiceForm";
 
-export default observer(function DashboardServices() {
+export default observer(function ProfileServices() {
     const {serviceStore, modalStore} = useStore();
     const {serviceRegistry, services, loadServices} = serviceStore;
 

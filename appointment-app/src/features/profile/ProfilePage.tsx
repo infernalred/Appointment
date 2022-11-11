@@ -2,10 +2,10 @@ import React from "react";
 import {observer} from "mobx-react-lite";
 import {Grid} from "semantic-ui-react";
 import {useStore} from "../../app/store/store";
-import DashboardHeader from "./DashboardHeader";
-import DashboardContent from "./DashboardContent";
+import ProfileHeader from "./ProfileHeader";
+import ProfileContent from "./ProfileContent";
 
-export default observer(function DashboardPage() {
+export default observer(function ProfilePage() {
     const {userStore} = useStore();
     const {user} = userStore;
 
@@ -14,8 +14,8 @@ export default observer(function DashboardPage() {
             <Grid.Column mobile={16} computer={6}>
                 {user &&
                     <>
-                        <DashboardHeader profile={user} />
-                        <DashboardContent />
+                        <ProfileHeader profile={user} />
+                        <ProfileContent />
                     </>}
             </Grid.Column>
         </Grid>
