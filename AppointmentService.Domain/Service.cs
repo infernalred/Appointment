@@ -9,5 +9,6 @@ public class Service
     public string? Image { get; set; }
     public bool IsEnabled { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public float Price { get; set; }
     public ICollection<Master> Masters { get; set; } = new List<Master>();
 }

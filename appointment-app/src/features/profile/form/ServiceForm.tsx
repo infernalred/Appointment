@@ -83,14 +83,20 @@ export default observer(function ServiceForm({ id }: Props) {
           <MyTextArea
             rows={2}
             name={"description"}
-            placeholder="Введите описание услуги"
+            placeholder="Введите описание"
             label={"Описание"}
           />
           <MyTextInput
             type={"number"}
             name={"durationMinutes"}
-            placeholder="Продолжительность"
+            placeholder="Введите продолжительность"
             label={"Продолжительность"}
+          />
+          <MyTextInput
+            type={"number"}
+            name={"price"}
+            placeholder="Введите стоимость"
+            label={"Стоимость"}
           />
           <Button
             disabled={isSubmitting}

@@ -6,6 +6,7 @@ export interface Service {
   description?: string;
   image?: string;
   durationMinutes: number;
+  price: number;
   masters: Master[];
 }
 
@@ -21,6 +22,7 @@ export class ServiceFormValues {
   description?: string = undefined;
   image?: string = undefined;
   durationMinutes = 30;
+  price = 0;
 
   constructor(service?: ServiceFormValues) {
     if (service) {
@@ -29,6 +31,7 @@ export class ServiceFormValues {
       this.description = service.description;
       this.image = service.image;
       this.durationMinutes = service.durationMinutes;
+      this.price = service.price;
     }
   }
 }

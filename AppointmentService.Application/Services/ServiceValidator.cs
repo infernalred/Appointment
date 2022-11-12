@@ -10,6 +10,5 @@ public class ServiceValidator : AbstractValidator<ServiceDto>
         RuleFor(x => x.DurationMinutes)
             .Must(value => value >= 30 && value % 30 == 0)
             .WithMessage("Продолжительность должна быть кратна 30");
-
     }
 }

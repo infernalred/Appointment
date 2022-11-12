@@ -9,6 +9,6 @@ public class ServiceDto
     public string? Description { get; set; }
     public int DurationMinutes { get; set; }
     public string? Image { get; set; }
-    public bool IsEnabled { get; set; }
+    public float Price { get; set; }
     public ICollection<MasterDto> Masters { get; set; } = new List<MasterDto>();
 }
