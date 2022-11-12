@@ -16,7 +16,7 @@ export default observer(function MasterConfirm() {
     const [appointment] = useState<AppointmentSlot>(new AppointmentSlot());
 
     const validationSchema = Yup.object({
-        phone: Yup.string().required("Номер телефона обязателен").length(11, "Введите корректный номер"),
+        phone: Yup.string().trim().required("Номер телефона обязателен").length(11, "Введите корректный номер"),
         userName: Yup.string().trim().required("Имя обязательно").max(25, "Максимальное число знаков 25")
     })
 
