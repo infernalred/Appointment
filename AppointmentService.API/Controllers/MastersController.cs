@@ -11,9 +11,10 @@ public class MastersController : BaseApiController
     [AllowAnonymous]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(OperationResult<MasterDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<OperationResult<MasterDto>>> GetMaster(string id)
     {
-        return Ok(await Mediator.Send(new Details.Query {Id = id}));
+        return HandleResult(await Mediator.Send(new Details.Query {Id = id}));
     }
 
     [AllowAnonymous]

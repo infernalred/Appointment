@@ -57,10 +57,12 @@ export default class MasterStore {
             this.setLoading(true);
             try {
                 const response = await agent.Masters.details(id);
-                this.setMaster(response.result);
-                runInAction(() => {
-                    this.master = response.result;
-                })
+                if (response.result) {
+                    this.setMaster(response.result);
+                    runInAction(() => {
+                        this.master = response.result;
+                    })
+                }
             } catch (e) {
                 console.log(e);
             }

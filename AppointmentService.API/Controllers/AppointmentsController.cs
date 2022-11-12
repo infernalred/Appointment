@@ -31,9 +31,10 @@ public class AppointmentsController : BaseApiController
     [AllowAnonymous]
     [HttpGet("{id:guid}", Name = nameof(GetAppointment))]
     [ProducesResponseType(typeof(OperationResult<AppointmentDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<OperationResult<AppointmentDto>>> GetAppointment(Guid id)
     {
-        return Ok(await Mediator.Send(new Details.Query {Id = id}));
+        return HandleResult(await Mediator.Send(new Details.Query {Id = id}));
     }
 
     [Authorize(Roles = $"{Roles.Master}")]

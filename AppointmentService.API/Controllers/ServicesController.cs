@@ -13,9 +13,10 @@ public class ServicesController : BaseApiController
     [AllowAnonymous]
     [HttpGet("{id:guid}", Name = nameof(GetService))]
     [ProducesResponseType(typeof(OperationResult<ServiceDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<OperationResult<ServiceDto>>> GetService(Guid id)
     {
-        return Ok(await Mediator.Send(new Details.Query {Id = id}));
+        return HandleResult(await Mediator.Send(new Details.Query {Id = id}));
     }
 
     [AllowAnonymous]
