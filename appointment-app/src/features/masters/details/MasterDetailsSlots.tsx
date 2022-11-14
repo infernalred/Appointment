@@ -27,7 +27,7 @@ export default observer(function MasterDetailsSlots({ slots, id }: Props) {
   }
 
   return (
-    <div>
+    <>
       {slots.length > 0 ? (
         <Fragment>
           {slots.map((slot) => (
@@ -45,12 +45,10 @@ export default observer(function MasterDetailsSlots({ slots, id }: Props) {
           ))}
         </Fragment>
       ) : (
-        <Fragment>
           <button disabled className={"buttonSlot"}>
             Слотов нет
           </button>
-        </Fragment>
       )}
-    </div>
+    </>
   );
 });

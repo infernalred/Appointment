@@ -1,10 +1,27 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Button, Header, Icon, Segment, Item, List } from "semantic-ui-react";
+import {
+  Button,
+  Header,
+  Icon,
+  Segment,
+  Item,
+  List,
+  Grid,
+} from "semantic-ui-react";
 import { useStore } from "../../../app/store/store";
 import MasterDetailsSlots from "./MasterDetailsSlots";
 import { SlotParams } from "../../../app/models/SlotParams";
 import { useNavigate } from "react-router-dom";
+
+const columnStyle = {
+  margin: 0,
+  padding: 0,
+  borderTop: "4px solid rgb(59, 179, 189)",
+  background: "rgb(243, 250, 251)",
+};
+
+const headerStyle = {};
 
 interface Props {
   id: string;
@@ -41,11 +58,14 @@ export default observer(function MasterDetailsTime({ id }: Props) {
   return (
     <Segment.Group>
       <Header textAlign="center" as={"h1"}>
-        Часы приема
+        Время приема:
+      </Header>
+      <Header textAlign="center" as={"h1"} style={{ marginTop: -20 }}>
+        {weekLabelDate}
       </Header>
       <Item.Group>
         <Item>
-          <Button.Group>
+          <Button.Group fluid>
             <Button
               primary
               icon
@@ -62,35 +82,32 @@ export default observer(function MasterDetailsTime({ id }: Props) {
             >
               <Icon name="angle right" />
             </Button>
-          </Button.Group>
-          <Item.Description>
-            <h1>{weekLabelDate}</h1>
-          </Item.Description>
-          {selected && (
-            <span>
-              <span className={"selectedDay"}>Подтвердите выбор</span>
+            {selected && (
               <Button
                 positive
-                icon
                 onClick={() => navigate(`/masters/${id}/confirm`)}
               >
-                {" "}
                 <Icon name={"check"} />
+                Подтвердите выбор
               </Button>
-            </span>
-          )}
+            )}
+          </Button.Group>
         </Item>
       </Item.Group>
       <Segment secondary>
-        <List className={"days"}>
+        <Grid columns={7} divided>
           {days.map((day) => (
-            <ul className={"ulSlots"} key={day.getDate()}>
-              <Segment>
-                <Header as={"h4"}>
-                  {day.toLocaleDateString([], { weekday: "short" })}{" "}
-                  {day.getDate()}
-                </Header>
-              </Segment>
+            <Grid.Column key={day.getDate()} style={columnStyle}>
+              <Header
+                as={"h4"}
+                textAlign="center"
+                attached="top"
+                style={headerStyle}
+              >
+                {day.toLocaleDateString([], { weekday: "short" })}
+                <br></br>
+                {day.getDate()}
+              </Header>
               {slotLoading ? (
                 <button disabled className={"buttonSlot"}>
                   Загрузка слотов
@@ -101,9 +118,9 @@ export default observer(function MasterDetailsTime({ id }: Props) {
                   id={id}
                 />
               )}
-            </ul>
+            </Grid.Column>
           ))}
-        </List>
+        </Grid>
       </Segment>
     </Segment.Group>
   );

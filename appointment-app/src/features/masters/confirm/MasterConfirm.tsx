@@ -42,7 +42,6 @@ export default observer(function MasterConfirm() {
         const updated = {...appointment, ...selected};
         await saveAppointment(updated);
         setConfirmed(true);
-        console.log("Бронирование успешно завершено");
     }
 
     function isNumber(evt: React.KeyboardEvent<HTMLInputElement>): void {
