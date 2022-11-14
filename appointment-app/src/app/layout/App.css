@@ -12,40 +12,25 @@
     width: 100%;
 }
 
-.buttonSlot {
-    height: 32px;
-    color: rgb(59, 179, 189);
-    font-size: 12px;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    border: 1px solid transparent;
-    cursor: pointer;
-    font-weight: 500;
-    border-radius: 2px;
-    background-color: rgb(243, 250, 251);
+.slot {
+    color: rgb(59, 179, 189) !important;
+    border: 1px solid transparent !important;
+    border-radius: 2px !important;
+    background-color: rgb(243, 250, 251) !important;
+    padding-left: 10% !important;
+    padding-right: 10% !important;
 }
 
-.buttonSlot:hover,
-.buttonSlot:active {
-    border-color: rgb(59, 179, 189);
-}
-
-.buttonSlot:disabled {
-    color: rgb(174, 181, 188);
-    border: 1px solid transparent;
-    cursor: pointer;
-    border-radius: 2px;
-    pointer-events: none;
-    touch-action: none;
-    text-align: center;
-    width: 90%;
+.slot:hover,
+.slot:active {
+    border-color: rgb(59, 179, 189) !important;
 }
 
 .selected {
-    background-color: rgb(59, 179, 189);
-    color: rgb(255, 255, 255);
+    background-color: rgb(59, 179, 189) !important;
+    color: rgb(255, 255, 255) !important;
+    padding-left: 10% !important;
+    padding-right: 10% !important;
 }
 
 .selectedDay {

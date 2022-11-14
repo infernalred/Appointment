@@ -6,7 +6,6 @@ import {
   Icon,
   Segment,
   Item,
-  List,
   Grid,
 } from "semantic-ui-react";
 import { useStore } from "../../../app/store/store";
@@ -19,9 +18,8 @@ const columnStyle = {
   padding: 0,
   borderTop: "4px solid rgb(59, 179, 189)",
   background: "rgb(243, 250, 251)",
+  textAlign: "center",
 };
-
-const headerStyle = {};
 
 interface Props {
   id: string;
@@ -102,7 +100,6 @@ export default observer(function MasterDetailsTime({ id }: Props) {
                 as={"h4"}
                 textAlign="center"
                 attached="top"
-                style={headerStyle}
               >
                 {day.toLocaleDateString([], { weekday: "short" })}
                 <br></br>
