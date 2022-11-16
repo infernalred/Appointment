@@ -10,4 +10,5 @@ public class DataContext : DataContextBase, IDataContext
     public DbSet<Master> Masters { get; set; } = null!;
     public DbSet<TimeSlot> TimeSlots { get; set; } = null!;
     public DbSet<Appointment> Appointments { get; set; } = null!;
+    public DbSet<Log> Logs { get; set; } = null!;
 }

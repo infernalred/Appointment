@@ -10,4 +10,5 @@ public interface IDataContext
     DbSet<Master> Masters { get; set; }
     DbSet<TimeSlot> TimeSlots { get; set; }
     DbSet<Appointment> Appointments { get; set; }
+    DbSet<Log> Logs { get; set; }
 }

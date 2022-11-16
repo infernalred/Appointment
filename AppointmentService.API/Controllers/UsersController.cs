@@ -18,14 +18,16 @@ public class UsersController : ControllerBase
     private readonly SignInManager<AppUser> _signInManager;
     private readonly ITokenService _tokenService;
     private readonly DataContext _context;
+    private readonly ILogger<UsersController> _logger;
 
     public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-        ITokenService tokenService, DataContext context)
+        ITokenService tokenService, DataContext context, ILogger<UsersController> logger)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _tokenService = tokenService;
         _context = context;
+        _logger = logger;
     }
 
     [AllowAnonymous]
@@ -95,6 +97,7 @@ public class UsersController : ControllerBase
         }
         catch (Exception e)
         {
+            _logger.LogError(e, "Master creation error");
             await transaction.RollbackAsync();
             return BadRequest("Возникла проблема при создании мастера");
         }

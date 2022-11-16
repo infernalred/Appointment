@@ -41,16 +41,18 @@ public class Create
         {
             var master = await _context.Masters
                 .AsTracking()
-                .FirstOrDefaultAsync(x => x.Id == request.Appointment.MasterId, cancellationToken);
-            
-            if (master == null) return OperationResult<Unit>.Failure("Мастер не существует");
+                .FirstAsync(x => x.Id == request.Appointment.MasterId, cancellationToken);
 
             var appointmentExisted = await _context.Appointments
                 .FirstOrDefaultAsync(x => x.MasterId == master.Id 
                                           && x.Start < request.Appointment.End 
                                           && x.End > request.Appointment.Start, cancellationToken: cancellationToken);
 
-            if (appointmentExisted != null) return OperationResult<Unit>.Failure("Конфликт бронирования. Выберите другой временной слот.");
+            if (appointmentExisted != null)
+            {
+                _logger.LogWarning($"Конфликт бронирования. Время {request.Appointment.Start} - {request.Appointment.End}.");
+                return OperationResult<Unit>.Failure("Конфликт бронирования. Выберите другой временной слот.");
+            }
 
             var appointment = _mapper.Map<Appointment>(request.Appointment);
 

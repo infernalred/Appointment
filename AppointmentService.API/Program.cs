@@ -5,6 +5,8 @@ using AppointmentService.Persistence;
 using AppointmentService.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,10 @@ builder.Services.AddSwaggerServices();
 builder.Services.AddCorsServices(builder.Configuration);
 builder.Services.AddSecurityServices(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
+
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 var app = builder.Build();
 
@@ -36,8 +42,7 @@ try
 }
 catch (Exception e)
 {
-    var logger = services.GetRequiredService<ILogger<Program>>();
-    logger.LogError(e, "An error occurred during migration or seed");
+    logger.Error(e, "An error occurred during migration or seed");
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -56,4 +61,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.RunAsync();
+try
+{
+    await app.RunAsync();
+}
+catch (Exception e)
+{
+    logger.Error(e, "Stopped program because of exception");
+}
+finally
+{
+    LogManager.Shutdown();
+}

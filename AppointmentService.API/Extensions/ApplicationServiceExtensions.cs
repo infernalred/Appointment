@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 
 namespace AppointmentService.API.Extensions;
 
@@ -21,6 +22,7 @@ public static class ApplicationServiceExtensions
             opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
 
+        LogManager.Configuration.Variables["DefaultConnection"] = configuration.GetConnectionString("DefaultConnection");
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
         services.AddMediatR(typeof(Details).Assembly);
         services.AddControllers(opt =>

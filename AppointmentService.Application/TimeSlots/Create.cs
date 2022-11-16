@@ -50,6 +50,7 @@ public class Create
             if (slots.Any(x => x.Start.TimeOfDay < request.TimeSlot.End.TimeOfDay
                                && x.End.TimeOfDay > request.TimeSlot.Start.TimeOfDay))
             {
+                _logger.LogWarning($"Пересечение времени мастера {user.Id} c - {request.TimeSlot.Start}, по {request.TimeSlot.End}");
                 return OperationResult<Unit>.Failure("Время не должно пересекаться");
             }
 
