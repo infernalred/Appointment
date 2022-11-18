@@ -20,6 +20,13 @@ export default observer(function SlotForm({ id, day }: Props) {
     new TimeSlotFormValues()
   );
 
+  const userLocale =
+    navigator.languages && navigator.languages.length
+      ? navigator.languages[0]
+      : navigator.language;
+
+  console.log(userLocale);
+
   const validationSchema = Yup.object({
     start: Yup.date()
       .required()
@@ -87,7 +94,7 @@ export default observer(function SlotForm({ id, day }: Props) {
 
   useEffect(() => {
     if (id) {
-        loadSlot(id).then((slot) => setSlot(new TimeSlotFormValues(slot)));
+      loadSlot(id).then((slot) => setSlot(new TimeSlotFormValues(slot)));
     }
   }, [id, loadSlot]);
 
@@ -132,6 +139,7 @@ export default observer(function SlotForm({ id, day }: Props) {
             timeIntervals={15}
             timeCaption="Время"
             dateFormat="h:mm aa"
+            locale={userLocale}
           />
           <label>Окончание работы</label>
           <MyDateInput
@@ -142,6 +150,7 @@ export default observer(function SlotForm({ id, day }: Props) {
             timeIntervals={15}
             timeCaption="Время"
             dateFormat="h:mm aa"
+            locale={userLocale}
           />
           <Button
             disabled={isSubmitting}
