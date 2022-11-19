@@ -20,12 +20,14 @@ export default observer(function SlotForm({ id, day }: Props) {
     new TimeSlotFormValues()
   );
 
-  const userLocale =
-    navigator.languages && navigator.languages.length
-      ? navigator.languages[0]
-      : navigator.language;
-
-  console.log(userLocale);
+  const language = Intl.DateTimeFormat().resolvedOptions().locale;
+    // navigator.languages && navigator.languages.length
+    //   ? navigator.languages[0]
+    //   : navigator.language;
+  console.log(language)
+  
+  const getLocale = (language: string) => require(`date-fns/locale/${language}`)
+  const locale = getLocale(language);
 
   const validationSchema = Yup.object({
     start: Yup.date()
@@ -138,8 +140,8 @@ export default observer(function SlotForm({ id, day }: Props) {
             showTimeSelectOnly
             timeIntervals={15}
             timeCaption="Время"
-            dateFormat="h:mm aa"
-            locale={userLocale}
+            dateFormat="p"
+            locale={locale}
           />
           <label>Окончание работы</label>
           <MyDateInput
@@ -149,8 +151,8 @@ export default observer(function SlotForm({ id, day }: Props) {
             showTimeSelectOnly
             timeIntervals={15}
             timeCaption="Время"
-            dateFormat="h:mm aa"
-            locale={userLocale}
+            dateFormat="p"
+            locale={locale}
           />
           <Button
             disabled={isSubmitting}
