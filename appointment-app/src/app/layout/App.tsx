@@ -19,6 +19,12 @@ import ServerError from "../../features/errors/ServerError";
 import PrivateRoute from "./PrivateRoute";
 import AxiosInterceptorsSetup from "../api/setupInterceptors"
 import NotFound from "../../features/errors/NotFound";
+import { registerLocale } from "react-datepicker";
+
+const language = Intl.DateTimeFormat().resolvedOptions().locale;
+const getLocale = (language: string) => require(`date-fns/locale/${language}`)
+const locale = getLocale(language);
+registerLocale(language, locale.default);
 
 
 function AxiosInterceptorNavigate() {

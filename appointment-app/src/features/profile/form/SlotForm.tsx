@@ -8,6 +8,8 @@ import { Form, Formik } from "formik";
 import { Header, Button } from "semantic-ui-react";
 import MyDateInput from "../../../app/common/form/MyDateInput";
 
+const language = Intl.DateTimeFormat().resolvedOptions().locale;
+
 interface Props {
   id: string;
   day: number;
@@ -19,15 +21,6 @@ export default observer(function SlotForm({ id, day }: Props) {
   const [slot, setSlot] = useState<TimeSlotFormValues>(
     new TimeSlotFormValues()
   );
-
-  const language = Intl.DateTimeFormat().resolvedOptions().locale;
-    // navigator.languages && navigator.languages.length
-    //   ? navigator.languages[0]
-    //   : navigator.language;
-  console.log(language)
-  
-  const getLocale = (language: string) => require(`date-fns/locale/${language}`)
-  const locale = getLocale(language);
 
   const validationSchema = Yup.object({
     start: Yup.date()
@@ -141,7 +134,7 @@ export default observer(function SlotForm({ id, day }: Props) {
             timeIntervals={15}
             timeCaption="Время"
             dateFormat="p"
-            locale={locale}
+            locale={language}
           />
           <label>Окончание работы</label>
           <MyDateInput
@@ -152,7 +145,7 @@ export default observer(function SlotForm({ id, day }: Props) {
             timeIntervals={15}
             timeCaption="Время"
             dateFormat="p"
-            locale={locale}
+            locale={language}
           />
           <Button
             disabled={isSubmitting}
