@@ -23,8 +23,7 @@ export default observer(function ServiceList() {
             textAlign="center"
             attached="top"
             inverted
-            color="teal"
-            style={{ border: "none" }}
+            style={{ border: "none", background: "#2a9d8f" }}
           >
             <Header>Салон красоты</Header>
           </Segment>

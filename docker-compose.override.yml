@@ -18,6 +18,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - TokenKey=${TokenKey}
+      - DaysTokenLife=7
       - "ConnectionStrings__DefaultConnection=Server=appointmentservice.db;Port=5432;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=appointments;"
     restart: always
     depends_on:

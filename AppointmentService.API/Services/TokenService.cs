@@ -25,13 +25,14 @@ public class TokenService : ITokenService
         };
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
+        var daysTokenLife = _configuration.GetSection("DaysTokenLife").Get<int?>() ?? 7;
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"] ?? throw new InvalidOperationException()));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddDays(7),
+            Expires = DateTime.UtcNow.AddDays(daysTokenLife),
             SigningCredentials = creds
         };
 
