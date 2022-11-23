@@ -9,10 +9,11 @@ using Microsoft.Extensions.Logging;
 
 namespace AppointmentService.Application.Appointments;
 
-public class MyAppointmentsByDate
+public class ListAppointmentsOnDate
 {
     public class Query : IRequest<OperationResult<List<AppointmentDto>>>
     {
+        public DateTime OnDate { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, OperationResult<List<AppointmentDto>>>
@@ -36,9 +37,10 @@ public class MyAppointmentsByDate
                 .FirstAsync(x => x.UserName == _userAccessor.GetUsername(),
                     cancellationToken: cancellationToken);
 
-            var date = DateTime.UtcNow.Date;
+            var start = request.OnDate.Date;
+
             var appointments = await _context.Appointments
-                .Where(x => x.MasterId == user.Id && x.Start > date && x.End < date.AddDays(1))
+                .Where(x => x.MasterId == user.Id && x.Start > start && x.End < start.AddDays(1))
                 .OrderBy(x => x.Start)
                 .ProjectTo<AppointmentDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);

@@ -10,6 +10,7 @@ import {Service, ServiceFormValues} from "../models/Service";
 import {store} from "../store/store";
 import {RegisterMaster} from "../models/RegisterMaster";
 import { TimeSlot, TimeSlotFormValues } from "../models/TimeSlot";
+import { AppointmentsOnDateParams } from "../models/AppointmentsOnDateParams";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -48,7 +49,8 @@ const Masters = {
 const Appointments = {
     create: (appointment: AppointmentSlot) =>
         requests.post<OperationResult<unknown>>("/appointments", appointment),
-    myAppointments: () => requests.get<OperationResult<AppointmentSlot[]>>("/appointments")
+    appointmentsOnDate: (params: AppointmentsOnDateParams) => axios.get<OperationResult<AppointmentSlot[]>>("/appointments/", { params})
+        .then(responseBody)
 };
 
 const TimeSlots = {

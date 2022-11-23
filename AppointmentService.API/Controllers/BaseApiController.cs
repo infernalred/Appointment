@@ -12,8 +12,10 @@ public class BaseApiController : ControllerBase
 
     protected IMediator Mediator => (_mediator ??= HttpContext.RequestServices.GetService<IMediator>())!;
 
-    protected ActionResult HandleResult<T>(OperationResult<T> result)
+    protected ActionResult HandleResult<T>(OperationResult<T>? result)
     {
+        if (result == null) return NotFound();
+        
         return result.IsSuccess switch
         {
             true when result.Result != null => Ok(result),

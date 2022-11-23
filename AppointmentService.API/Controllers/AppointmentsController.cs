@@ -42,8 +42,8 @@ public class AppointmentsController : BaseApiController
     [ProducesResponseType(typeof(OperationResult<List<AppointmentDto>>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<OperationResult<List<AppointmentDto>>>> GetMyAppointmentsByDate()
+    public async Task<ActionResult<OperationResult<List<AppointmentDto>>>> GetAppointmentsByDate([FromQuery] AppointmentsOnDateParams appointmentsOnDateParams)
     {
-        return Ok(await Mediator.Send(new MyAppointmentsByDate.Query()));
+        return Ok(await Mediator.Send(new ListAppointmentsOnDate.Query{OnDate = appointmentsOnDateParams.OnDate}));
     }
 }

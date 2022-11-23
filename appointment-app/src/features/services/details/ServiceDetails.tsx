@@ -4,6 +4,7 @@ import {useStore} from "../../../app/store/store";
 import {useParams} from "react-router-dom";
 import {Grid} from "semantic-ui-react";
 import ServiceDetailsHeader from "./ServiceDetailsHeader";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 export default observer(function ServiceDetails() {
     const {serviceStore} = useStore();
@@ -16,7 +17,7 @@ export default observer(function ServiceDetails() {
         }
     }, [id, loadService])
 
-    if (loading || !service) return <h1>Загрузка</h1>
+    if (loading || !service) return <LoadingComponent content="Загрузка данных..." />
 
     return (
         <Grid centered>

@@ -10,7 +10,7 @@ namespace AppointmentService.Application.Services;
 
 public class Edit
 {
-    public class Command : IRequest<OperationResult<Unit>>
+    public class Command : IRequest<OperationResult<Unit>?>
     {
         public ServiceDto Service { get; set; } = null!;
     }
@@ -23,7 +23,7 @@ public class Edit
         }
     }
 
-    public class Handler : IRequestHandler<Command, OperationResult<Unit>>
+    public class Handler : IRequestHandler<Command, OperationResult<Unit>?>
     {
         private readonly ILogger<Handler> _logger;
         private readonly DataContext _context;
@@ -36,14 +36,14 @@ public class Edit
             _mapper = mapper;
         }
 
-        public async Task<OperationResult<Unit>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<OperationResult<Unit>?> Handle(Command request, CancellationToken cancellationToken)
         {
             var service = await _context.Services
                 .AsTracking()
                 .SingleOrDefaultAsync(x => x.Id == request.Service.Id, 
                     cancellationToken: cancellationToken);
 
-            if (service == null) return OperationResult<Unit>.Failure("Услуги не существует");
+            if (service == null) return null;
 
             _mapper.Map(request.Service, service);
 

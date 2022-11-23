@@ -32,7 +32,6 @@ function AxiosInterceptorNavigate() {
     const [ran, setRan] = useState(false);
 
     if (!ran) {
-        console.log("interceptors");
         AxiosInterceptorsSetup(navigate);
         setRan(true);
     }

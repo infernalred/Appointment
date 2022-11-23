@@ -43,14 +43,14 @@ public class ServicesController : BaseApiController
     [Authorize(Roles = $"{Roles.Admin},{Roles.Manager}")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(OperationResult<Unit>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<OperationResult<Unit>>> EditService(Guid id, ServiceDto service)
     {
         service.Id = id;
-        var result = await Mediator.Send(new Edit.Command {Service = service});
 
-        return Ok(result);
+        return HandleResult(await Mediator.Send(new Edit.Command {Service = service}));
     }
 }

@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx"
 import {AppointmentSlot} from "../models/AppointmentSlot";
 import agent from "../api/agent";
+import { AppointmentsOnDateParams } from "../models/AppointmentsOnDateParams";
 
 export default class AppointmentStore {
     appointments: AppointmentSlot[] = []; 
@@ -10,12 +11,13 @@ export default class AppointmentStore {
         makeAutoObservable(this)
     }
 
-    loadMyAppointmentsByDate = async () => {
+    loadAppointmentsByDate = async (params: AppointmentsOnDateParams) => {
         this.loading = true;
         try {
-            const result = await agent.Appointments.myAppointments();
+            const response = await agent.Appointments.appointmentsOnDate(params);
+            response.result.forEach(x => {x.start = new Date(x.start); x.end = new Date(x.end)});
             runInAction(() => {
-                this.appointments = result.result;
+                this.appointments = response.result;
             })
         } catch (e) {
             console.log(e);
