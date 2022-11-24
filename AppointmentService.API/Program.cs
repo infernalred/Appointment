@@ -46,12 +46,17 @@ catch (Exception e)
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseHeadersMiddleware();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    app.UseHsts();
 }
 
 app.UseCors("CorsPolicy");
