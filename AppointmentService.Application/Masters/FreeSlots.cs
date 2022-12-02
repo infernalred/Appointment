@@ -1,4 +1,5 @@
-﻿using AppointmentService.Application.Helpers;
+﻿using System.Collections.Concurrent;
+using AppointmentService.Application.Helpers;
 using AppointmentService.Persistence.Context;
 using FluentValidation;
 using MediatR;
@@ -36,35 +37,33 @@ public class FreeSlots
 
         public async Task<OperationResult<List<Slot>>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var result = new List<Slot>();
+            var result = new ConcurrentBag<Slot>();
 
             var master = await _context.Masters
                 .Include(x => x.TimeSlots)
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            if (master == null) return OperationResult<List<Slot>>.Success(result);
+            if (master == null) return OperationResult<List<Slot>>.Success(result.ToList());
 
             master.Service = await _context.Services.FirstAsync(x => x.Id == master.ServiceId, cancellationToken);
 
-            var quantityDays = request.Params.QuantityDays;
-
             var startEndTime = request.Params.Start;
-            var endDateTime = new DateTime(startEndTime.Year, startEndTime.Month, startEndTime.Day, 0, 0, 0, startEndTime.Kind);
-            endDateTime = endDateTime.AddDays(quantityDays);
+            var endDateTime = new DateTime(startEndTime.Year, startEndTime.Month, startEndTime.Day, 0, 0, 0,
+                startEndTime.Kind);
+            endDateTime = endDateTime.AddDays(request.Params.QuantityDays);
 
             var appointments = await _context.Appointments
                 .Where(x => x.MasterId == master.Id && x.Start > request.Params.Start && x.End < endDateTime)
                 .OrderBy(x => x.Start)
                 .ToListAsync(cancellationToken);
 
-            var start = request.Params.Start;
-            var end = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, start.Kind).AddDays(1);
-
-            for (var i = 0; i <= quantityDays; i++)
+            Parallel.For(0, request.Params.QuantityDays + 1, (i) =>
             {
+                var start = request.Params.Start.AddDays(i);
+
                 var slots = master.TimeSlots
                     .OrderBy(x => x.Start)
-                    .Where(x => x.DayOfWeek == start.DayOfWeek).ToList();
+                    .Where(x => x.DayOfWeek == start.DayOfWeek);
 
                 foreach (var slot in slots)
                 {
@@ -82,7 +81,8 @@ public class FreeSlots
                             End = startDateTime.AddMinutes(master.Service.DurationMinutes)
                         };
 
-                        if (newSlot.Start > DateTime.UtcNow && !appointments.Any(x => x.Start < newSlot.End && x.End > newSlot.Start))
+                        if (newSlot.Start > DateTime.UtcNow &&
+                            !appointments.Any(x => x.Start < newSlot.End && x.End > newSlot.Start))
                         {
                             result.Add(newSlot);
                         }
@@ -91,12 +91,9 @@ public class FreeSlots
                         minutes -= master.Service.DurationMinutes;
                     }
                 }
+            });
 
-                start = end;
-                end = end.AddDays(1);
-            }
-
-            return OperationResult<List<Slot>>.Success(result);
+            return OperationResult<List<Slot>>.Success(result.ToList());
         }
     }
 }

@@ -2,6 +2,6 @@
 
 public class SlotParams
 {
-    public DateTime Start { get; set; } = DateTime.UtcNow;
-    public int QuantityDays { get; set; } = 6;
+    public DateTime Start { get; init; } = DateTime.UtcNow;
+    public int QuantityDays { get; init; } = 6;
 }

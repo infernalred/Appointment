@@ -167,6 +167,11 @@ public class CreateTimeSlotTests
         mockUserAccessor.Verify(x => x.GetUsername());
         mockUserAccessor.VerifyNoOtherCalls();
         mockUserAccessor.VerifyAll();
+        logger.Verify(x => x.Log(It.IsAny<LogLevel>(), 
+            It.IsAny<EventId>(), 
+            It.IsAny<It.IsAnyType>(), 
+            It.IsAny<Exception>(),
+            ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!));
         logger.VerifyNoOtherCalls();
         logger.VerifyAll();
     }
@@ -201,6 +206,11 @@ public class CreateTimeSlotTests
         mockUserAccessor.Verify(x => x.GetUsername());
         mockUserAccessor.VerifyNoOtherCalls();
         mockUserAccessor.VerifyAll();
+        logger.Verify(x => x.Log(It.IsAny<LogLevel>(), 
+            It.IsAny<EventId>(), 
+            It.IsAny<It.IsAnyType>(), 
+            It.IsAny<Exception>(),
+            ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!));
         logger.VerifyNoOtherCalls();
         logger.VerifyAll();
     }
@@ -235,6 +245,11 @@ public class CreateTimeSlotTests
         mockUserAccessor.Verify(x => x.GetUsername());
         mockUserAccessor.VerifyNoOtherCalls();
         mockUserAccessor.VerifyAll();
+        logger.Verify(x => x.Log(It.IsAny<LogLevel>(), 
+            It.IsAny<EventId>(), 
+            It.IsAny<It.IsAnyType>(), 
+            It.IsAny<Exception>(),
+            ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!));
         logger.VerifyNoOtherCalls();
         logger.VerifyAll();
     }
@@ -269,6 +284,11 @@ public class CreateTimeSlotTests
         mockUserAccessor.Verify(x => x.GetUsername());
         mockUserAccessor.VerifyNoOtherCalls();
         mockUserAccessor.VerifyAll();
+        logger.Verify(x => x.Log(It.IsAny<LogLevel>(), 
+            It.IsAny<EventId>(), 
+            It.IsAny<It.IsAnyType>(), 
+            It.IsAny<Exception>(),
+            ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!));
         logger.VerifyNoOtherCalls();
         logger.VerifyAll();
     }

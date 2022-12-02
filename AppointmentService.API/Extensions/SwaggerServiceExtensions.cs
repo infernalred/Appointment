@@ -20,7 +20,7 @@ public static class SwaggerServiceExtensions
                 BearerFormat = "JWT",
                 Scheme = "bearer"
             });
-                
+
             c.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
@@ -36,7 +36,7 @@ public static class SwaggerServiceExtensions
                 }
             });
         });
-        
+
         return services;
     }
 }
