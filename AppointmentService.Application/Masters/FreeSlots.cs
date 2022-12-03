@@ -57,7 +57,7 @@ public class FreeSlots
                 .OrderBy(x => x.Start)
                 .ToListAsync(cancellationToken);
 
-            Parallel.For(0, request.Params.QuantityDays + 1, (i) =>
+            Parallel.For(0, request.Params.QuantityDays + 1, i =>
             {
                 var start = request.Params.Start.AddDays(i);
 

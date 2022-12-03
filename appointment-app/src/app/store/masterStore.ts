@@ -81,9 +81,9 @@ export default class MasterStore {
             const response = await agent.Masters.freeSlots(id, this.slotParams);
             response.result.forEach(x => {x.start = new Date(x.start); x.end = new Date(x.end)});
             runInAction(() => {
-                for (let i = 0; i <= this.slotParams.quantityDaysNumber; i++) {
-                    const slots = response.result.filter(x => x.start.getDay() === i).sort((a, b) => a.start.getTime() - b.start.getTime());
-                    this.masterSlotsRegistry.set(i, slots);
+                for (const day of this.days) {
+                    const slots = response.result.filter(x => x.start.getDay() === day.getDay()).sort((a, b) => a.start.getTime() - b.start.getTime());
+                    this.masterSlotsRegistry.set(day.getDay(), slots);
                 }
             })
         } catch (e) {
