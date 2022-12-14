@@ -1,27 +1,24 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import OperationResult from "../models/OperationResult";
-import { ServerError } from "../models/ServerError";
 import { store } from "../store/store";
 
 const AxiosInterceptorsSetup = (navigate: any) => {
     axios.interceptors.response.use(async response => {
         return response;
     }, (error: AxiosError) => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const { data, status, headers } = error.response!;
+        const { data, status, headers } = error.response as AxiosResponse;
         switch (status) {
             case 400:
-                if ((data as any).errors) {
-                    const modalStateErrors = [] as string[];
+                if (data.errors) {
+                    const modalStateErrors = [];
                     for (const key in (data as any).errors) {
-                        if ((data as any).errors[key]) {
-                            modalStateErrors.push((data as any).errors[key])
+                        if (data.errors[key]) {
+                            modalStateErrors.push(data.errors[key])
                         }
                     }
                     throw modalStateErrors.flat();
                 } else {
-                    toast.error(data as string);
+                    toast.error(data);
                 }
                 break;
             case 401:
@@ -39,10 +36,10 @@ const AxiosInterceptorsSetup = (navigate: any) => {
                 navigate("/not-found");
                 break;
             case 409:
-                toast.error((data as OperationResult<never>).error || "Произошла ошибка");
+                toast.error(data.error || "Произошла ошибка");
                 break;
             case 500:
-                store.commonStore.setServerError(data as ServerError);
+                store.commonStore.setServerError(data);
                 navigate("/server-error");
                 break;
         }

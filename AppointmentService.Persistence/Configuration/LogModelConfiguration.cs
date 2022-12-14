@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AppointmentService.Persistence.Configuration;
 
-public class TraceModelConfiguration : IEntityTypeConfiguration<Log>
+public class LogModelConfiguration : IEntityTypeConfiguration<Log>
 {
     public void Configure(EntityTypeBuilder<Log> builder)
     {

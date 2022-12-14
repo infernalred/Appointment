@@ -47,10 +47,6 @@ export default class UserStore {
             roles.push(...jwt.role)
         }
 
-        console.log(expDate);
-        console.log(new Date(expDate).getTime());
-        console.log(new Date().getTime());
-
         this.setAccount(response, response.token, expDate, roles)
         this.setAppLoaded();
     }
@@ -72,8 +68,6 @@ export default class UserStore {
         } else {
             roles.push(...jwt.role)
         }
-        console.log("ExpresIn");
-        console.log(expiresIn);
 
         if (expiresIn < 0) {
             this.setAppLoaded();
