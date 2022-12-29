@@ -27,18 +27,12 @@ public static class SecurityServiceExtensions
             .AddSignInManager<SignInManager<AppUser>>()
             .AddDefaultTokenProviders();
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"] ?? throw new InvalidOperationException()));
+        //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"] ?? throw new InvalidOperationException()));
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(opt =>
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
             {
-                opt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = key,
-                    ValidateAudience = false,
-                    ValidateIssuer = false,
-                    ValidateLifetime = true
-                };
+                opt.Authority = "http://localhost:5001";
+                opt.Audience = "AppointmentsAPI";
             });
 
         services.AddAuthorization(opt =>

@@ -1,4 +1,3 @@
-using Identity.API.Configuration;
 using Identity.API.Data;
 using Identity.API.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -6,14 +5,9 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddCorsServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -33,20 +27,16 @@ catch (Exception e)
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseExceptionHandler("/Home/Error");
 }
-
-app.UseCors("CorsPolicy");
+app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseIdentityServer();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 
-await app.RunAsync();
+app.Run();

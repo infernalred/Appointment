@@ -1,30 +1,47 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace Identity.API.Configuration;
 
 public static class Config
 {
-    public static IEnumerable<ApiScope> ApiScopes =>
-        new List<ApiScope>
-        {
-            new ApiScope("api1", "My API")
-        };
-
     public static IEnumerable<Client> Clients =>
         new List<Client>
         {
-            new Client
+            new()
             {
-                ClientId = "client",
-
+                ClientId = "client_id",
+                ClientSecrets = { new Secret("client_secret".Sha256()) },
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                ClientSecrets =
+                AllowedScopes = {"AppointmentsAPI"}
+            },
+            new()
+            {
+                ClientId = "client_id_mvc1",
+                ClientSecrets = { new Secret("client_secret_mvc".Sha256()) },
+                AllowedGrantTypes = GrantTypes.Code,
+                AllowedScopes =
                 {
-                    new Secret("secret".Sha256())
+                    "AppointmentsAPI",
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile
                 },
-
-                AllowedScopes = {"api1"}
+                RedirectUris = {"https://localhost:3001/signin-oidc"},
+                PostLogoutRedirectUris = {"https://localhost:3001/signout-callback-oidc"},
+                RequireConsent = false
             }
+        };
+
+    public static IEnumerable<ApiResource> ApiResources =>
+        new List<ApiResource>
+        {
+            new("AppointmentsAPI")
+        };
+
+    public static IEnumerable<IdentityResource> IdentityResources =>
+        new List<IdentityResource>
+        {
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile()
         };
 }

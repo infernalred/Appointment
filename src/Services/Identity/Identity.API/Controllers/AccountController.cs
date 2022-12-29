@@ -1,57 +1,66 @@
-﻿using Identity.API.Models;
+﻿using Duende.IdentityServer.Services;
+using Identity.API.Models;
 using Identity.API.Models.AccountViewModel;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.API.Controllers;
 
-public class AccountController : ControllerBase
+[Route("[controller]/[action]")]
+public class AccountController : Controller
 {
-    private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly UserManager<AppUser> _userManager;
+    private readonly IIdentityServerInteractionService _interactionService;
 
-    public AccountController(UserManager<AppUser> userManager,  SignInManager<AppUser> signInManager)
+    public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager,
+        IIdentityServerInteractionService interactionService)
     {
-        _userManager = userManager;
         _signInManager = signInManager;
+        _userManager = userManager;
+        _interactionService = interactionService;
     }
 
-    [AllowAnonymous]
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterViewModel model)
+    public async Task<IActionResult> Logout(string logoutId)
     {
-        if (!ModelState.IsValid)
+        await _signInManager.SignOutAsync();
+        var result = await _interactionService.GetLogoutContextAsync(logoutId);
+        if (string.IsNullOrEmpty(result.PostLogoutRedirectUri))
         {
-            return ValidationProblem();
+            return RedirectToAction("Index", "Home");
         }
-
-        var user = await _userManager.FindByNameAsync(model.Email);
-        if (user != null)
-        {
-            ModelState.AddModelError("email", "Email taken");
-            return ValidationProblem();
-        }
-
-        user = new AppUser {UserName = model.Email, Email = model.Email, DisplayName = model.DisplayName};
-        var result = await _userManager.CreateAsync(user, model.Password);
-        if (result.Succeeded)
-        {
-            return Ok();
-        }
-
-        return BadRequest(result.Errors);
+        return Redirect(result.PostLogoutRedirectUri);
     }
 
-    [AllowAnonymous]
-    [HttpPost("login")]
+    public IActionResult Login(string returnUrl)
+    {
+        return View();
+    }
+
+    [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (!ModelState.IsValid)
         {
-            return ValidationProblem();
+            return View(model);
         }
 
-        return Ok();
+        var user = await _userManager.FindByNameAsync(model.UserName);
+        if (user == null)
+        {
+            ModelState.AddModelError("UserName", "User not found");
+            return View(model);
+        }
+
+        var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+        if (result.Succeeded)
+        {
+            return Redirect(model.ReturnUrl);
+        }
+
+        ModelState.AddModelError("User", "Something went wrang");
+        return View(model);
     }
 }
