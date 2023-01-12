@@ -42,18 +42,18 @@ public class AccountController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginViewModel model)
+    public async Task<IActionResult> Login(LoginInputModel model)
     {
         if (!ModelState.IsValid)
         {
-            return View(model);
+            return View(await BuildLoginViewModelAsync(model));
         }
 
         var user = await _userManager.FindByEmailAsync(model.Email);
         if (user == null)
         {
             ModelState.AddModelError("UserName", "User not found");
-            return View(model);
+            return View(await BuildLoginViewModelAsync(model));
         }
 
         var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
@@ -166,12 +166,14 @@ public class AccountController : Controller
 
         return new LoginViewModel
         {
+            AllowRememberLogin = AccountOptions.AllowRememberLogin,
+            EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
             ReturnUrl = returnUrl,
-            Email = context?.LoginHint ?? string.Empty
+            Email = context?.LoginHint ?? string.Empty,
         };
     }
 
-    private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginViewModel model)
+    private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
     {
         var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
         vm.Email = model.Email;

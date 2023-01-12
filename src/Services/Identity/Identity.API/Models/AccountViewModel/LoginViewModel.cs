@@ -1,19 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace Identity.API.Models.AccountViewModel;
 
-namespace Identity.API.Models.AccountViewModel;
-
-public class LoginViewModel
+public class LoginViewModel : LoginInputModel
 {
-    [Required]
-    [EmailAddress]
-    public string Email { get; set; } = null!;
+    public bool AllowRememberLogin { get; set; } = true;
+    public bool EnableLocalLogin { get; set; } = true;
 
-    [Required]
-    [DataType(DataType.Password)]
-    public string Password { get; set; } = null!;
+    public IEnumerable<ExternalProvider> ExternalProviders { get; set; } = Enumerable.Empty<ExternalProvider>();
+    public IEnumerable<ExternalProvider> VisibleExternalProviders => ExternalProviders.Where(x => !string.IsNullOrWhiteSpace(x.DisplayName));
 
-    public bool RememberMe { get; set; }
-
-    [Required]
-    public string ReturnUrl { get; set; } = null!;
+    public bool IsExternalLoginOnly => EnableLocalLogin == false && ExternalProviders.Count() == 1;
+    public string? ExternalLoginScheme => IsExternalLoginOnly ? ExternalProviders.SingleOrDefault()?.AuthenticationScheme : null;
 }

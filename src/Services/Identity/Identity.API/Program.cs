@@ -1,11 +1,11 @@
 using Identity.API.Data;
 using Identity.API.Extensions;
+using Identity.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddLocalizationServices<AppUser, string>(builder.Configuration);
 
 builder.Services.AddApplicationServices(builder.Configuration);
 
